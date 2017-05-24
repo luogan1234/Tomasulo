@@ -17,4 +17,21 @@ public class TomasuloCore {
     public void action() {
         b.set(!b.get());
     }
+    
+    
+    public boolean check()
+    {
+    	return true;
+    }
+    
+    public boolean next()
+    {
+    	return check();
+    }
+    
+    public void emit(){
+    	
+    }
+    
+    
 }
