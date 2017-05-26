@@ -26,6 +26,22 @@ public class Buffer {
 		timeLeft=-1;
 	}
 	
+	public boolean isRunning()
+	{
+		if (inst==null||timeLeft==-1)
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean isBusy()
+	{
+		if (inst==null)
+			return false;
+		else
+			return true;
+	}
+	
 	public void start()
 	{
 		assert(inst!=null);
@@ -107,18 +123,10 @@ public class Buffer {
 			return "";
 	}
 	
-	public String Vj()
+	public String Address()
 	{
 		if (inst!=null)
-			return inst.Vj();
-		else
-			return "";
-	}
-	
-	public String Vk()
-	{
-		if (inst!=null)
-			return inst.Vk();
+			return inst.Address();
 		else
 			return "";
 	}
