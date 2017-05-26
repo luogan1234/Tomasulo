@@ -1,5 +1,5 @@
 package tomasulo;
 
 public enum StateType {
-	Sleep,Wait,Run,Write,Done
+	Sleep,Wait,Run,Done
 }

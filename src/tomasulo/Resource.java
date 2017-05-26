@@ -4,10 +4,10 @@ public class Resource {
 	public Register[] reg;
 	public FloatRegister[] freg;
 	public Memory mem;
-	public Buffer[] ldBuffer={new Buffer("Load1",InstType.LD),new Buffer("Load2",InstType.LD),new Buffer("Load3",InstType.LD)};
-	public Buffer[] stBuffer={new Buffer("Store1",InstType.ST),new Buffer("Store2",InstType.ST),new Buffer("Store3",InstType.ST)};
-	public Buffer[] addBuffer={new Buffer("Add1",InstType.ADDD),new Buffer("Add2",InstType.ADDD),new Buffer("Add3",InstType.ADDD)};
-	public Buffer[] multBuffer={new Buffer("Mult1",InstType.MULTD),new Buffer("Mult2",InstType.MULTD)};
+	public Buffer[] ldBuffer={new Buffer("Load1",InstType.LD,this),new Buffer("Load2",InstType.LD,this),new Buffer("Load3",InstType.LD,this)};
+	public Buffer[] stBuffer={new Buffer("Store1",InstType.ST,this),new Buffer("Store2",InstType.ST,this),new Buffer("Store3",InstType.ST,this)};
+	public Buffer[] addBuffer={new Buffer("Add1",InstType.ADDD,this),new Buffer("Add2",InstType.ADDD,this),new Buffer("Add3",InstType.ADDD,this)};
+	public Buffer[] multBuffer={new Buffer("Mult1",InstType.MULTD,this),new Buffer("Mult2",InstType.MULTD,this)};
 	
 	public Resource()
 	{
@@ -48,24 +48,58 @@ public class Resource {
 		return -1;
 	}
 	
-	public void nextLd()
+	public void next(Buffer[] buffer,int n,int round)
 	{
 		int o=-1,i;
-		for (i=0;i<3;++i)
-			if (ldBuffer[i].isRunning())
+		for (i=0;i<n;++i)
+			if (buffer[i].isRunning())
 				o=i;
 		if (o!=-1)
-			ldBuffer[o].next();
+			buffer[o].next(round);
 		else
-			for (i=0;i<3;++i)
-				if (ldBuffer[i].isBusy()&&)
+		{
+			for (i=0;i<n;++i)
+				if (buffer[i].canStart()&&(o==-1||buffer[i].inst.order<buffer[o].inst.order))
+					o=i;
+			if (o!=-1)
+				buffer[o].start();
+		}
 	}
 	
-	public void next()
+	public void check(Buffer[] buffer,int n,int round)
 	{
-		nextLd();
-		nextSt();
-		nextAdd();
-		nextMult();
+		int i;
+		for (i=0;i<n;++i)
+			buffer[i].check(round);
+	}
+	
+	public void next(int round)
+	{
+		next(ldBuffer,3,round);
+		next(stBuffer,3,round);
+		next(addBuffer,3,round);
+		next(multBuffer,2,round);
+	}
+	
+	public void check(int round)
+	{
+		check(ldBuffer,3,round);
+		check(stBuffer,3,round);
+		check(addBuffer,3,round);
+		check(multBuffer,2,round);
+	}
+	
+	public void write(Buffer[] buffer,int n,Buffer b,double res)
+	{
+		for (int i=0;i<n;++i)
+			buffer[i].write(b,res);
+	}
+	
+	public void write(Buffer buffer,double res)
+	{
+		write(ldBuffer,3,buffer,res);
+		write(stBuffer,3,buffer,res);
+		write(addBuffer,3,buffer,res);
+		write(multBuffer,2,buffer,res);
 	}
 }

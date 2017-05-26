@@ -5,10 +5,11 @@ public class Buffer {
 	public Instruction inst;
 	public String name;
 	public InstType type;
+	public Resource resource;
 	
-	public Buffer(String n,InstType t)
+	public Buffer(String n,InstType t,Resource r)
 	{
-		timeLeft=0;inst=null;name=n;type=t;
+		timeLeft=0;inst=null;name=n;type=t;resource=r;
 	}
 	
 	public void setInst(Instruction i)
@@ -24,6 +25,24 @@ public class Buffer {
 			assert(i.type==InstType.ST);
 		inst=i;
 		timeLeft=-1;
+		if (inst.type!=InstType.LD)
+		{
+			FloatRegister freg=resource.freg[inst.op2];
+			if (freg.buffer==null)
+				inst.vj=freg.value;
+			else
+				inst.qj=freg.buffer;
+		}
+		if (inst.type!=InstType.LD&&inst.type!=InstType.ST)
+		{
+			FloatRegister freg=resource.freg[inst.op3];
+			if (freg.buffer==null)
+				inst.vk=freg.value;
+			else
+				inst.qk=freg.buffer;
+		}
+		if (inst.type!=InstType.ST)
+			resource.freg[inst.op1].buffer=this;
 	}
 	
 	public boolean isRunning()
@@ -34,17 +53,18 @@ public class Buffer {
 			return true;
 	}
 	
-	public boolean isBusy()
+	public boolean canStart()
 	{
 		if (inst==null)
 			return false;
 		else
-			return true;
+			return inst.canStart();
 	}
 	
 	public void start()
 	{
 		assert(inst!=null);
+		inst.state=StateType.Run;
 		if (inst.type==InstType.MULTD)
 			timeLeft=10;
 		else
@@ -54,12 +74,36 @@ public class Buffer {
 			timeLeft=2;
 	}
 	
-	public void next()
+	public void next(int round)
 	{
-		assert(timeLeft>=0);
+		assert(timeLeft>0);
 		--timeLeft;
-		if (timeLeft==-1)
+		if (timeLeft==0)
+		{
+			inst.execRound=round;
+		}
+	}
+	
+	public void write(Buffer buffer,double res)
+	{
+		if (inst!=null)
+			inst.write(buffer,res);
+	}
+	
+	public void check(int round)
+	{
+		if (timeLeft==0)
+		{
+			inst.state=StateType.Done;
+			inst.writeRound=round;
+			double res=inst.calc();
+			if (inst.type!=InstType.ST)
+			{
+				resource.write(this,res);
+				resource.freg[inst.op1].write(this,res);
+			}
 			inst=null;
+		}
 	}
 	
 	public String Time()

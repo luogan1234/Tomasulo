@@ -14,9 +14,11 @@ public class TomasuloCore {
     
     public Instruction[] insts;
     
-    private int num;
+    private int num,round;
     
     private int[] tot;
+    
+    private boolean running;
 
     public final boolean getB() { return b.get(); }
  
@@ -31,13 +33,13 @@ public class TomasuloCore {
     public TomasuloCore()
     {
     	resource=new Resource();
-    	num=0;
+    	num=0;running=false;
     }
     
     public void newInsts()
     {
     	insts=new Instruction[100];
-    	num=0;
+    	num=round=0;
     	tot=new int[7];
     	Arrays.fill(tot, 0);
     }
@@ -45,8 +47,20 @@ public class TomasuloCore {
     public void addInst(InstType type,int op1,int op2,int op3)
     {
     	++tot[type.ordinal()];
-    	insts[num]=new Instruction(type,op1,op2,op3,tot[type.ordinal()],resource);
+    	insts[num]=new Instruction(type,op1,op2,op3,tot[type.ordinal()],num,resource);
     	++num;
+    }
+    
+    public void start()
+    {
+    	assert(!running);
+    	running=true;
+    }
+    
+    public void stop()
+    {
+    	assert(running);
+    	running=false;
     }
     
     public boolean check()
@@ -59,7 +73,7 @@ public class TomasuloCore {
     
     public void issue()
     {
-    	int o;
+    	int o=-1;
     	for (int i=0;i<num;++i)
     		if (insts[i].state==StateType.Sleep)
     		{
@@ -69,54 +83,46 @@ public class TomasuloCore {
 				case SUBD:
 					o=resource.addBusy();
 					if (o>-1)
-					{
 						resource.addBuffer[o].setInst(insts[i]);
-						insts[i].state=StateType.Wait;
-						return;
-					}
 					break;
 				case MULTD:
 				case DIVD:
 					o=resource.multBusy();
 					if (o>-1)
-					{
 						resource.multBuffer[o].setInst(insts[i]);
-						insts[i].state=StateType.Wait;
-						return;
-					}
 					break;
 				case LD:
 					o=resource.ldBusy();
 					if (o>-1)
-					{
 						resource.ldBuffer[o].setInst(insts[i]);
-						insts[i].state=StateType.Wait;
-						return;
-					}
 					break;
 				case ST:
 					o=resource.stBusy();
 					if (o>-1)
-					{
 						resource.stBuffer[o].setInst(insts[i]);
-						insts[i].state=StateType.Wait;
-						return;
-					}
 					break;
 				default:
 					break;
     			}
+    			if (o>-1)
+    			{
+    				insts[i].issueRound=round;
+					insts[i].state=StateType.Wait;
+    			}
+    			return;
     		}
     }
     
     public boolean next()
     {
-    	resource.next();
+    	assert(running);
+    	++round;
+    	resource.check(round);
+    	resource.next(round);
     	issue();
-    	return check();
+    	boolean res=check();
+    	if (res)
+    		running=false;
+    	return res;
     }
-    
-    
-    
-    
 }

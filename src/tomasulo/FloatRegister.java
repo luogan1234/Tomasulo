@@ -2,10 +2,25 @@ package tomasulo;
 
 public class FloatRegister {
 	public double value;
-	public String info;
+	public Buffer buffer;
 	
 	public FloatRegister()
 	{
-		value=0;info="";
+		value=0;buffer=null;
+	}
+	
+	public String info()
+	{
+		if (buffer==null)
+			return "";
+		else
+			return buffer.name;
+	}
+	
+	public void write(Buffer b,double res)
+	{
+		value=res;
+		if (buffer==b)
+			buffer=null;
 	}
 }

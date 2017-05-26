@@ -2,14 +2,60 @@ package tomasulo;
 
 public class Instruction {
 	public InstType type;
-	public int op1,op2,op3,num,issueRound,execRound,writeRound;
+	public int op1,op2,op3,num,order,issueRound,execRound,writeRound;
 	public Resource resource;
 	public StateType state;
+	public double vj,vk;
+	public Buffer qj,qk;
 	
-	public Instruction(InstType t,int o1,int o2,int o3,int n,Resource r)
+	public Instruction(InstType t,int o1,int o2,int o3,int n,int p,Resource r)
 	{
-		type=t;op1=o1;op2=o2;op3=o3;num=n;resource=r;state=StateType.Sleep;
-		issueRound=execRound=writeRound=0;
+		type=t;op1=o1;op2=o2;op3=o3;num=n;order=p;resource=r;
+		issueRound=execRound=writeRound=0;state=StateType.Sleep;
+		vj=vk=0.0;qj=qk=null;
+	}
+	
+	public boolean canStart()
+	{
+		if (qj==null&&qk==null)
+			return true;
+		else
+			return false;
+	}
+	
+	public void write(Buffer buffer,double res)
+	{
+		if (qj==buffer)
+		{
+			qj=null;vj=res;
+		}
+		if (qk==buffer)
+		{
+			qk=null;vk=res;
+		}
+	}
+	
+	public double calc()
+	{
+		switch (type)
+		{
+		case ADDD:
+			return vj+vk;
+		case DIVD:
+			assert(vk!=0);
+			return vj/vk;
+		case LD:
+			return resource.mem.load(op2+resource.reg[op3].value);
+		case MULTD:
+			return vj*vk;
+		case ST:
+			resource.mem.store(op2+resource.reg[op3].value, vj);
+			return 0.0;
+		case SUBD:
+			return vj-vk;
+		default:
+			return 0.0;
+		}
 	}
 	
 	public String typeName()
@@ -47,8 +93,8 @@ public class Instruction {
 	public String Vj()
 	{
 		assert(type!=InstType.NOP&&type!=InstType.LD&&type!=InstType.ST);
-		if (resource.freg[op2].info=="")
-			return String.valueOf(resource.freg[op2].value);
+		if (qj==null)
+			return String.valueOf(vj);
 		else
 			return "";
 	}
@@ -56,22 +102,22 @@ public class Instruction {
 	public String Vk()
 	{
 		assert(type!=InstType.NOP&&type!=InstType.LD&&type!=InstType.ST);
-		if (resource.freg[op3].info=="")
-			return String.valueOf(resource.freg[op3].value);
+		if (qk==null)
+			return String.valueOf(vk);
 		else
 			return "";
 	}
 	
 	public String Qj()
 	{
-		assert(type!=InstType.NOP&&type!=InstType.LD&&type!=InstType.ST);
-		return resource.freg[op2].info;
+		assert(type!=InstType.NOP&&type!=InstType.LD);
+		return qj.name;
 	}
 	
 	public String Qk()
 	{
 		assert(type!=InstType.NOP&&type!=InstType.LD&&type!=InstType.ST);
-		return resource.freg[op3].info;
+		return qk.name;
 	}
 	
 	public String Address()
