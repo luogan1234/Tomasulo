@@ -13,6 +13,11 @@ public class Resource {
 	{
 		reg=new Register[11];
 		freg=new FloatRegister[11];
+		for (int i=0;i<11;++i)
+		{
+			reg[i]=new Register();
+			freg[i]=new FloatRegister();
+		}
 		mem=new Memory();
 	}
 	
@@ -53,17 +58,12 @@ public class Resource {
 		int o=-1,i;
 		for (i=0;i<n;++i)
 			if (buffer[i].isRunning())
+				buffer[i].next(round);
+		for (i=0;i<n;++i)
+			if (buffer[i].canStart()&&(o==-1||buffer[i].inst.order<buffer[o].inst.order))
 				o=i;
 		if (o!=-1)
-			buffer[o].next(round);
-		else
-		{
-			for (i=0;i<n;++i)
-				if (buffer[i].canStart()&&(o==-1||buffer[i].inst.order<buffer[o].inst.order))
-					o=i;
-			if (o!=-1)
-				buffer[o].start();
-		}
+			buffer[o].start();
 	}
 	
 	public void check(Buffer[] buffer,int n,int round)
@@ -101,5 +101,31 @@ public class Resource {
 		write(stBuffer,3,buffer,res);
 		write(addBuffer,3,buffer,res);
 		write(multBuffer,2,buffer,res);
+	}
+	
+	public void print(Buffer[] buffer,int n)
+	{
+		for (int i=0;i<n;++i)
+			buffer[i].print();
+	}
+	
+	public void print()
+	{
+		int i;
+		print(ldBuffer,3);
+		print(stBuffer,3);
+		print(addBuffer,3);
+		print(multBuffer,2);
+		System.out.println("freg:");
+		for (i=0;i<11;++i)
+			System.out.print(freg[i].info()+' ');
+		System.out.println();
+		for (i=0;i<11;++i)
+			System.out.print(String.valueOf(freg[i].value)+' ');
+		System.out.println();
+		System.out.println("reg:");
+		for (i=0;i<11;++i)
+			System.out.print(String.valueOf(reg[i].value)+' ');
+		System.out.println();
 	}
 }

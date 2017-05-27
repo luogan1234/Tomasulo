@@ -9,7 +9,7 @@ public class Buffer {
 	
 	public Buffer(String n,InstType t,Resource r)
 	{
-		timeLeft=0;inst=null;name=n;type=t;resource=r;
+		timeLeft=-1;inst=null;name=n;type=t;resource=r;
 	}
 	
 	public void setInst(Instruction i)
@@ -42,7 +42,7 @@ public class Buffer {
 				inst.qk=freg.buffer;
 		}
 		if (inst.type!=InstType.ST)
-			resource.freg[inst.op1].buffer=this;
+			resource.freg[inst.op1].buffer=this;	
 	}
 	
 	public boolean isRunning()
@@ -55,7 +55,7 @@ public class Buffer {
 	
 	public boolean canStart()
 	{
-		if (inst==null)
+		if (inst==null||timeLeft!=-1)
 			return false;
 		else
 			return inst.canStart();
@@ -103,6 +103,7 @@ public class Buffer {
 				resource.freg[inst.op1].write(this,res);
 			}
 			inst=null;
+			timeLeft=-1;
 		}
 	}
 	
@@ -173,5 +174,25 @@ public class Buffer {
 			return inst.Address();
 		else
 			return "";
+	}
+	
+	public void print()
+	{
+		switch (type)
+		{
+		case ADDD:
+		case MULTD:
+			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Op()+' '+Vj()+' '+Vk()+' '+Qj()+' '+Qk());
+			break;
+		case LD:
+			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Address());
+			break;
+		case ST:
+			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Address()+' '+Qj());
+			break;
+		default:
+			break;
+		}
+		
 	}
 }

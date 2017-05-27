@@ -10,8 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 
-public class Main extends Application {
-    private TomasuloCore core;
+public class Main /*extends Application*/ {
+/*    private TomasuloCore core;
 
     @Override
     public void start(Stage primaryStage) {
@@ -43,9 +43,26 @@ public class Main extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public static void main(String[] args) {
-        launch(args);
+    //    launch(args);
+    	test();
+    }
+    
+    public static void test()
+    {
+    	TomasuloCore tomasulo=new TomasuloCore();
+    	tomasulo.newInsts();
+    	tomasulo.addInst(InstType.LD,6,34,2);
+    	tomasulo.addInst(InstType.LD,2,45,3);
+    	tomasulo.addInst(InstType.MULTD,0,2,4);
+    	tomasulo.addInst(InstType.SUBD,8,6,2);
+    	tomasulo.addInst(InstType.DIVD,10,0,6);
+    	tomasulo.addInst(InstType.ADDD,6,8,2);
+    	tomasulo.start();
+    	while (!tomasulo.next())
+    		tomasulo.print();
+    	tomasulo.print();
     }
 }

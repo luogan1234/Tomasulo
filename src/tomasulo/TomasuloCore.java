@@ -118,11 +118,21 @@ public class TomasuloCore {
     	assert(running);
     	++round;
     	resource.check(round);
-    	resource.next(round);
     	issue();
+    	resource.next(round);
     	boolean res=check();
     	if (res)
     		running=false;
     	return res;
+    }
+    
+    public void print()
+    {
+    	System.out.println("-----------"+String.valueOf(round)+"-----------");
+    	for (int i=0;i<num;++i)
+    	{
+    		insts[i].print();
+    	}
+    	resource.print();
     }
 }

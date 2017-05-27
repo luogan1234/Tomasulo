@@ -111,13 +111,19 @@ public class Instruction {
 	public String Qj()
 	{
 		assert(type!=InstType.NOP&&type!=InstType.LD);
-		return qj.name;
+		if (qj==null)
+			return "";
+		else
+			return qj.name;
 	}
 	
 	public String Qk()
 	{
 		assert(type!=InstType.NOP&&type!=InstType.LD&&type!=InstType.ST);
-		return qk.name;
+		if (qk==null)
+			return "";
+		else
+			return qk.name;
 	}
 	
 	public String Address()
@@ -148,5 +154,10 @@ public class Instruction {
 			return String.valueOf(writeRound);
 		else
 			return "";
+	}
+	
+	public void print()
+	{
+		System.out.println(typeName()+':'+Issue()+' '+ExecComp()+' '+WriteResult());
 	}
 }
