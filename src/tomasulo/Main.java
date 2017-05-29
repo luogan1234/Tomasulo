@@ -53,7 +53,7 @@ public class Main /*extends Application*/ {
     public static void test()
     {
     	TomasuloCore tomasulo=new TomasuloCore();
-    	tomasulo.newInsts();
+    	tomasulo.clear();
     	tomasulo.addInst(InstType.LD,6,34,2);
     	tomasulo.addInst(InstType.LD,2,45,3);
     	tomasulo.addInst(InstType.MULTD,0,2,4);

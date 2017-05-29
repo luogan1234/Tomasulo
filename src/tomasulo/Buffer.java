@@ -193,6 +193,10 @@ public class Buffer {
 		default:
 			break;
 		}
-		
+	}
+	
+	public void clear()
+	{
+		timeLeft=-1;inst=null;
 	}
 }

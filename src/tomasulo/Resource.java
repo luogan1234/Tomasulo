@@ -128,4 +128,23 @@ public class Resource {
 			System.out.print(String.valueOf(reg[i].value)+' ');
 		System.out.println();
 	}
+	
+	public void clear()
+	{
+		for (int i=0;i<11;++i)
+		{
+			reg[i].value=0;
+			freg[i].value=0;
+			freg[i].buffer=null;
+		}
+		for (int i=0;i<3;++i)
+		{
+			ldBuffer[i].clear();
+			stBuffer[i].clear();
+			addBuffer[i].clear();
+			mem.clear();
+			if (i<2)
+				multBuffer[i].clear();
+		}
+	}
 }

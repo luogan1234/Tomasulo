@@ -36,14 +36,6 @@ public class TomasuloCore {
     	num=0;running=false;
     }
     
-    public void newInsts()
-    {
-    	insts=new Instruction[100];
-    	num=round=0;
-    	tot=new int[7];
-    	Arrays.fill(tot, 0);
-    }
-    
     public void addInst(InstType type,int op1,int op2,int op3)
     {
     	++tot[type.ordinal()];
@@ -57,10 +49,14 @@ public class TomasuloCore {
     	running=true;
     }
     
-    public void stop()
+    public void clear()
     {
-    	assert(running);
     	running=false;
+    	insts=new Instruction[100];
+    	num=round=0;
+    	tot=new int[7];
+    	Arrays.fill(tot, 0);
+    	resource.clear();
     }
     
     public boolean check()

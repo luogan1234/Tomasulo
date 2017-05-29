@@ -31,4 +31,9 @@ public class Memory {
 		assert(p>=0&&p<len);
 		mem[p]=v;
 	}
+	
+	public void clear()
+	{
+		Arrays.fill(mem,0.0);
+	}
 }
