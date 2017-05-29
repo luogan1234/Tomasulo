@@ -3,12 +3,12 @@ package tomasulo;
 import java.util.Arrays;
 
 public class Memory {
-	private double[] mem;
-	private int len;
+	public double[] mem;
+	public int len;
 	
 	public Memory()
 	{
-		len=64;
+		len=4096;
 		mem=new double[len];
 		Arrays.fill(mem, 0.0);
 	}
