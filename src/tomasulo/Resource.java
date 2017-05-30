@@ -53,15 +53,46 @@ public class Resource {
 		return -1;
 	}
 	
+	public boolean checkMem(Buffer a,Buffer b)
+	{
+		if (b.inst!=null&&b.timeLeft==-1&&b.inst.order<a.inst.order&&b.inst.address()==a.inst.address())
+			return false;
+		return true;
+	}
+	
 	public void next(Buffer[] buffer,int n,int round)
 	{
-		int o=-1,i;
+		int o=-1,i,j;
 		for (i=0;i<n;++i)
 			if (buffer[i].isRunning())
 				buffer[i].next(round);
 		for (i=0;i<n;++i)
 			if (buffer[i].canStart()&&(o==-1||buffer[i].inst.order<buffer[o].inst.order))
-				o=i;
+			{
+				boolean p=true;
+				switch (buffer[i].type)
+				{
+				case LD:
+					for (j=0;j<3;++j)
+						if (!checkMem(buffer[i],stBuffer[j]))
+							p=false;
+					break;
+				case ST:
+					for (j=0;j<3;++j)
+						if (!checkMem(buffer[i],ldBuffer[j]))
+							p=false;
+					break;
+				case MULTD:
+					j=1-i;
+					if (buffer[j].timeLeft>4)
+						p=false;
+					break;
+				default:
+					break;
+				}
+				if (p)
+					o=i;
+			}
 		if (o!=-1)
 			buffer[o].start();
 	}

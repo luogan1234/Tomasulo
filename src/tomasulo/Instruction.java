@@ -35,6 +35,12 @@ public class Instruction {
 		}
 	}
 	
+	public int address()
+	{
+		assert(type==InstType.LD&&type==InstType.ST);
+		return resource.reg[op3].value+op2;
+	}
+	
 	public double calc()
 	{
 		switch (type)
@@ -58,6 +64,12 @@ public class Instruction {
 		}
 	}
 	
+	public void print()
+	{
+		System.out.println(typeName()+':'+Issue()+' '+ExecComp()+' '+WriteResult());
+	}
+	
+	//以下是显示用函数
 	public String typeName()
 	{
 		String name;
@@ -154,10 +166,5 @@ public class Instruction {
 			return String.valueOf(writeRound);
 		else
 			return "";
-	}
-	
-	public void print()
-	{
-		System.out.println(typeName()+':'+Issue()+' '+ExecComp()+' '+WriteResult());
 	}
 }

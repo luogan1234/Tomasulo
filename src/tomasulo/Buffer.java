@@ -27,7 +27,12 @@ public class Buffer {
 		timeLeft=-1;
 		if (inst.type!=InstType.LD)
 		{
-			FloatRegister freg=resource.freg[inst.op2];
+			int op;
+			if (inst.type!=InstType.ST)
+				op=inst.op2;
+			else
+				op=inst.op1;
+			FloatRegister freg=resource.freg[op];
 			if (freg.buffer==null)
 				inst.vj=freg.value;
 			else
@@ -42,7 +47,7 @@ public class Buffer {
 				inst.qk=freg.buffer;
 		}
 		if (inst.type!=InstType.ST)
-			resource.freg[inst.op1].buffer=this;	
+			resource.freg[inst.op1].buffer=this;
 	}
 	
 	public boolean isRunning()
@@ -107,6 +112,31 @@ public class Buffer {
 		}
 	}
 	
+	public void print()
+	{
+		switch (type)
+		{
+		case ADDD:
+		case MULTD:
+			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Op()+' '+Vj()+' '+Vk()+' '+Qj()+' '+Qk());
+			break;
+		case LD:
+			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Address());
+			break;
+		case ST:
+			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Address()+' '+Vj()+' '+Qj());
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public void clear()
+	{
+		timeLeft=-1;inst=null;
+	}
+	
+	//以下是显示用函数
 	public String Time()
 	{
 		if (timeLeft>=0)
@@ -174,29 +204,5 @@ public class Buffer {
 			return inst.Address();
 		else
 			return "";
-	}
-	
-	public void print()
-	{
-		switch (type)
-		{
-		case ADDD:
-		case MULTD:
-			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Op()+' '+Vj()+' '+Vk()+' '+Qj()+' '+Qk());
-			break;
-		case LD:
-			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Address());
-			break;
-		case ST:
-			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Address()+' '+Qj());
-			break;
-		default:
-			break;
-		}
-	}
-	
-	public void clear()
-	{
-		timeLeft=-1;inst=null;
 	}
 }

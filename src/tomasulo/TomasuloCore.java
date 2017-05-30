@@ -18,7 +18,7 @@ public class TomasuloCore {
     
     private int[] tot;
     
-    private boolean running;
+    public boolean running;
 
     public final boolean getB() { return b.get(); }
  
@@ -36,6 +36,7 @@ public class TomasuloCore {
     	num=0;running=false;
     }
     
+    //添加指令
     public void addInst(InstType type,int op1,int op2,int op3)
     {
     	++tot[type.ordinal()];
@@ -43,12 +44,14 @@ public class TomasuloCore {
     	++num;
     }
     
+    //开始执行
     public void start()
     {
     	assert(!running);
     	running=true;
     }
     
+    //清空内存寄存器，指令最多100条
     public void clear()
     {
     	running=false;
@@ -59,6 +62,7 @@ public class TomasuloCore {
     	resource.clear();
     }
     
+    //判断是否结束
     public boolean check()
     {
     	for (int i=0;i<num;++i)
@@ -67,7 +71,8 @@ public class TomasuloCore {
     	return true;
     }
     
-    public void issue()
+    //发射一条指令
+    private void issue()
     {
     	int o=-1;
     	for (int i=0;i<num;++i)
@@ -109,6 +114,7 @@ public class TomasuloCore {
     		}
     }
     
+    //执行一轮
     public boolean next()
     {
     	assert(running);
@@ -122,6 +128,7 @@ public class TomasuloCore {
     	return res;
     }
     
+    //算法调试用
     public void print()
     {
     	System.out.println("-----------"+String.valueOf(round)+"-----------");
