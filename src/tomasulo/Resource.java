@@ -84,7 +84,7 @@ public class Resource {
 					break;
 				case MULTD:
 					j=1-i;
-					if (buffer[j].timeLeft>4)
+					if (buffer[j].timeLeft>4&&buffer[j].inst!=null&&buffer[j].inst.type==InstType.DIVD)
 						p=false;
 					break;
 				default:
