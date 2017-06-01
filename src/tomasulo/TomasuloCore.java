@@ -138,7 +138,7 @@ public class TomasuloCore {
     	System.out.println(Arrays.toString(resource.getBuffer(resource.ldBuffer, 3)));
     	System.out.println(Arrays.toString(resource.getBuffer(resource.stBuffer, 3)));
     	System.out.println(Arrays.toString(resource.getBuffer(resource.addBuffer, 3)));
-    	System.out.println(Arrays.toString(resource.getBuffer(resource.multBuffer, 3)));
+    	System.out.println(Arrays.toString(resource.getBuffer(resource.multBuffer, 2)));
     	System.out.println(Arrays.toString(resource.getFregInfo()));
     	System.out.println(Arrays.toString(resource.getFregValue()));
     	System.out.println(Arrays.toString(resource.getRegValue()));
