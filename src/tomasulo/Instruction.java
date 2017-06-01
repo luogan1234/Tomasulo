@@ -64,9 +64,13 @@ public class Instruction {
 		}
 	}
 	
-	public void print()
+	public String get()
 	{
-		System.out.println(typeName()+':'+Issue()+' '+ExecComp()+' '+WriteResult());
+		if (type == InstType.ADDD || type == InstType.SUBD || type == InstType.MULTD || type == InstType.DIVD)
+			return typeName()+" R"+Issue()+" R"+ExecComp()+" R"+WriteResult();
+		else if (type == InstType.LD || type == InstType.ST)
+			return typeName()+" R"+Issue()+" "+ExecComp()+" R"+WriteResult();
+		else return "";
 	}
 	
 	//以下是显示用函数
@@ -85,7 +89,7 @@ public class Instruction {
 			name="LD";
 			break;
 		case MULTD:
-			name="MULTD";
+			name="MULD";
 			break;
 		case NOP:
 			name="NOP";

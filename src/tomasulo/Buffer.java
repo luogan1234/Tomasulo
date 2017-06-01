@@ -112,22 +112,19 @@ public class Buffer {
 		}
 	}
 	
-	public void print()
+	public String get()
 	{
 		switch (type)
 		{
 		case ADDD:
 		case MULTD:
-			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Op()+' '+Vj()+' '+Vk()+' '+Qj()+' '+Qk());
-			break;
+			return Time()+' '+Name()+' '+Busy()+' '+Op()+' '+Vj()+' '+Vk()+' '+Qj()+' '+Qk();
 		case LD:
-			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Address());
-			break;
+			return Time()+' '+Name()+' '+Busy()+' '+Address();
 		case ST:
-			System.out.println(Time()+' '+Name()+' '+Busy()+' '+Address()+' '+Vj()+' '+Qj());
-			break;
+			return Time()+' '+Name()+' '+Busy()+' '+Address()+' '+Vj()+' '+Qj();
 		default:
-			break;
+			return "";
 		}
 	}
 	

@@ -50,11 +50,27 @@ public class Main /*extends Application*/ {
     	test();
     }
     
+    public static void testAnalyzer() {
+    	Analyzer analyzer = new Analyzer();
+    	analyzer.tomasulo.clear();
+    	analyzer.addInst("LD R6 34 R2");
+    	analyzer.addInst("LD R2 45 R3");
+    	analyzer.addInst("MULD R0 R2 R4");
+    	analyzer.addInst("SUBD R8 R6 R2");
+    	analyzer.addInst("DIVD R10 R0 R6");
+    	analyzer.addInst("ADDD R6 R8 R2");
+    	analyzer.tomasulo.start();
+    	while (!analyzer.tomasulo.next()) {
+    		analyzer.tomasulo.print();
+    	}
+    	analyzer.tomasulo.print();
+    }
+    
     public static void test()
     {
     	TomasuloCore tomasulo=new TomasuloCore();
     	tomasulo.clear();
-    	int CASE=2;
+    	int CASE=1;
     	switch (CASE)
     	{
     	case 1:	//pptÑùÀý
@@ -83,4 +99,5 @@ public class Main /*extends Application*/ {
     		tomasulo.print();
     	tomasulo.print();
     }
+    
 }

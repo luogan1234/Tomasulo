@@ -14,7 +14,7 @@ public class TomasuloCore {
     
     public Instruction[] insts;
     
-    private int num,round;
+    public int num,round;
     
     private int[] tot;
     
@@ -132,10 +132,15 @@ public class TomasuloCore {
     public void print()
     {
     	System.out.println("-----------"+String.valueOf(round)+"-----------");
-    	for (int i=0;i<num;++i)
-    	{
-    		insts[i].print();
+    	for(int i = 0; i < num; i++) {
+    		System.out.println(insts[i].get());
     	}
-    	resource.print();
+    	System.out.println(Arrays.toString(resource.getBuffer(resource.ldBuffer, 3)));
+    	System.out.println(Arrays.toString(resource.getBuffer(resource.stBuffer, 3)));
+    	System.out.println(Arrays.toString(resource.getBuffer(resource.addBuffer, 3)));
+    	System.out.println(Arrays.toString(resource.getBuffer(resource.multBuffer, 3)));
+    	System.out.println(Arrays.toString(resource.getFregInfo()));
+    	System.out.println(Arrays.toString(resource.getFregValue()));
+    	System.out.println(Arrays.toString(resource.getRegValue()));
     }
 }

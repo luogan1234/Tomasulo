@@ -134,12 +134,36 @@ public class Resource {
 		write(multBuffer,2,buffer,res);
 	}
 	
-	public void print(Buffer[] buffer,int n)
+	public String[] getBuffer(Buffer[] buffer,int n)
 	{
-		for (int i=0;i<n;++i)
-			buffer[i].print();
+		String[] buffers = new String[buffer.length];
+		for (int i=0;i<buffer.length;++i)
+			buffers[i] = buffer[i].get();
+		return buffers;
 	}
 	
+	public String[] getFregInfo() {
+		String[] fregs = new String[11];
+		for (int i=0;i<11;++i)
+			fregs[i] = freg[i].info();
+		return fregs;
+	}
+	
+	public String[] getFregValue() {
+		String[] fregs = new String[11];
+		for (int i=0;i<11;++i)
+			fregs[i] = String.valueOf(freg[i].value);
+		return fregs;
+	}
+	
+	public String[] getRegValue() {
+		String[] regs = new String[11];
+		for (int i=0;i<11;++i)
+			regs[i] = String.valueOf(reg[i].value);
+		return regs;
+	}
+
+	/*
 	public void print()
 	{
 		int i;
@@ -159,6 +183,7 @@ public class Resource {
 			System.out.print(String.valueOf(reg[i].value)+' ');
 		System.out.println();
 	}
+	*/
 	
 	public void clear()
 	{
