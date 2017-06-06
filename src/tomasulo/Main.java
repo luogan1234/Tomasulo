@@ -51,6 +51,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        //testAnalyzer();
     }
 
     public static void testAnalyzer() {
