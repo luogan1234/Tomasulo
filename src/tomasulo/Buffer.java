@@ -6,12 +6,12 @@ public class Buffer {
 	public String name;
 	public InstType type;
 	public Resource resource;
-	
+
 	public Buffer(String n,InstType t,Resource r)
 	{
 		timeLeft=-1;inst=null;name=n;type=t;resource=r;
 	}
-	
+
 	public void setInst(Instruction i)
 	{
 		assert(inst==null);
@@ -49,7 +49,7 @@ public class Buffer {
 		if (inst.type!=InstType.ST)
 			resource.freg[inst.op1].buffer=this;
 	}
-	
+
 	public boolean isRunning()
 	{
 		if (inst==null||timeLeft==-1)
@@ -57,7 +57,7 @@ public class Buffer {
 		else
 			return true;
 	}
-	
+
 	public boolean canStart()
 	{
 		if (inst==null||timeLeft!=-1)
@@ -65,7 +65,7 @@ public class Buffer {
 		else
 			return inst.canStart();
 	}
-	
+
 	public void start()
 	{
 		assert(inst!=null);
@@ -78,7 +78,7 @@ public class Buffer {
 		else
 			timeLeft=2;
 	}
-	
+
 	public void next(int round)
 	{
 		assert(timeLeft>0);
@@ -88,13 +88,13 @@ public class Buffer {
 			inst.execRound=round;
 		}
 	}
-	
+
 	public void write(Buffer buffer,double res)
 	{
 		if (inst!=null)
 			inst.write(buffer,res);
 	}
-	
+
 	public void check(int round)
 	{
 		if (timeLeft==0)
@@ -111,7 +111,7 @@ public class Buffer {
 			timeLeft=-1;
 		}
 	}
-	
+
 	public String get()
 	{
 		switch (type)
@@ -127,13 +127,13 @@ public class Buffer {
 			return "";
 		}
 	}
-	
+
 	public void clear()
 	{
 		timeLeft=-1;inst=null;
 	}
-	
-	//以下是显示用函数
+
+	//浠ヤ笅鏄樉绀虹敤鍑芥暟
 	public String Time()
 	{
 		if (timeLeft>=0)
@@ -141,12 +141,12 @@ public class Buffer {
 		else
 			return "";
 	}
-	
+
 	public String Name()
 	{
 		return name;
 	}
-	
+
 	public String Busy()
 	{
 		if (inst!=null)
@@ -154,7 +154,7 @@ public class Buffer {
 		else
 			return "No";
 	}
-	
+
 	public String Op()
 	{
 		if (inst!=null)
@@ -162,7 +162,7 @@ public class Buffer {
 		else
 			return "";
 	}
-	
+
 	public String Vj()
 	{
 		if (inst!=null)
@@ -170,7 +170,7 @@ public class Buffer {
 		else
 			return "";
 	}
-	
+
 	public String Vk()
 	{
 		if (inst!=null)
@@ -178,7 +178,7 @@ public class Buffer {
 		else
 			return "";
 	}
-	
+
 	public String Qj()
 	{
 		if (inst!=null)
@@ -186,7 +186,7 @@ public class Buffer {
 		else
 			return "";
 	}
-	
+
 	public String Qk()
 	{
 		if (inst!=null)
@@ -194,7 +194,7 @@ public class Buffer {
 		else
 			return "";
 	}
-	
+
 	public String Address()
 	{
 		if (inst!=null)

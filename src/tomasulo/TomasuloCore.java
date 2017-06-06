@@ -9,49 +9,49 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 public class TomasuloCore {
     private BooleanProperty b = new SimpleBooleanProperty(true);
-    
+
     public Resource resource;
-    
+
     public Instruction[] insts;
-    
+
     public int num,round;
-    
+
     private int[] tot;
-    
+
     public boolean running;
 
     public final boolean getB() { return b.get(); }
- 
+
     public final void setB(boolean value) { b.set(value); }
- 
+
     public BooleanProperty bProperty() { return b; }
-    
+
     public void action() {
         b.set(!b.get());
     }
-    
+
     public TomasuloCore()
     {
     	resource=new Resource();
     	num=0;running=false;
     }
-    
-    //Ìí¼ÓÖ¸Áî
+
+    //æ·»åŠ æŒ‡ä»¤
     public void addInst(InstType type,int op1,int op2,int op3)
     {
     	++tot[type.ordinal()];
     	insts[num]=new Instruction(type,op1,op2,op3,tot[type.ordinal()],num,resource);
     	++num;
     }
-    
-    //¿ªÊ¼Ö´ĞĞ
+
+    //å¼€å§‹æ‰§è¡Œ
     public void start()
     {
     	assert(!running);
     	running=true;
     }
-    
-    //Çå¿ÕÄÚ´æ¼Ä´æÆ÷£¬Ö¸Áî×î¶à100Ìõ
+
+    //æ¸…ç©ºå†…å­˜å¯„å­˜å™¨ï¼ŒæŒ‡ä»¤æœ€å¤š100æ¡
     public void clear()
     {
     	running=false;
@@ -61,8 +61,8 @@ public class TomasuloCore {
     	Arrays.fill(tot, 0);
     	resource.clear();
     }
-    
-    //ÅĞ¶ÏÊÇ·ñ½áÊø
+
+    //åˆ¤æ–­æ˜¯å¦ç»“æŸ
     public boolean check()
     {
     	for (int i=0;i<num;++i)
@@ -70,8 +70,8 @@ public class TomasuloCore {
     			return false;
     	return true;
     }
-    
-    //·¢ÉäÒ»ÌõÖ¸Áî
+
+    //å‘å°„ä¸€æ¡æŒ‡ä»¤
     private void issue()
     {
     	int o=-1;
@@ -113,8 +113,8 @@ public class TomasuloCore {
     			return;
     		}
     }
-    
-    //Ö´ĞĞÒ»ÂÖ
+
+    //æ‰§è¡Œä¸€è½®
     public boolean next()
     {
     	assert(running);
@@ -127,8 +127,8 @@ public class TomasuloCore {
     		running=false;
     	return res;
     }
-    
-    //Ëã·¨µ÷ÊÔÓÃ
+
+    //ç®—æ³•è°ƒè¯•ç”¨
     public void print()
     {
     	System.out.println("-----------"+String.valueOf(round)+"-----------");

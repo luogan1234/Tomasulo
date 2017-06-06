@@ -38,7 +38,7 @@ public class Main extends Application {
 
             AnchorPane root = FXMLLoader.load(getClass().getClassLoader().getResource("TomasuloUI.fxml"));
 //            root.getChildren().add(btn);
-            
+
             Scene scene = new Scene(root, 640, 480);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
@@ -52,7 +52,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     public static void testAnalyzer() {
     	Analyzer analyzer = new Analyzer();
     	analyzer.tomasulo.clear();
@@ -68,7 +68,7 @@ public class Main extends Application {
     	}
     	analyzer.tomasulo.print();
     }
-    
+
     public static void test()
     {
     	TomasuloCore tomasulo=new TomasuloCore();
@@ -76,7 +76,7 @@ public class Main extends Application {
     	int CASE=1;
     	switch (CASE)
     	{
-    	case 1:	//ppt样例
+    	case 1:	//ppt鏍蜂緥
     		tomasulo.addInst(InstType.LD,6,34,2);
         	tomasulo.addInst(InstType.LD,2,45,3);
         	tomasulo.addInst(InstType.MULTD,0,2,4);
@@ -84,13 +84,13 @@ public class Main extends Application {
         	tomasulo.addInst(InstType.DIVD,10,0,6);
         	tomasulo.addInst(InstType.ADDD,6,8,2);
         	break;
-    	case 2:	//浮点乘除法器流水线，IF(1),ID(1),EX,MEM(1),WB(1)，乘法EX(6)，除法EX(6*6)
+    	case 2:	//娴偣涔橀櫎娉曞櫒娴佹按绾匡紝IF(1),ID(1),EX,MEM(1),WB(1)锛屼箻娉旹X(6)锛岄櫎娉旹X(6*6)
     		tomasulo.resource.freg[1].value=10;
         	tomasulo.resource.freg[2].value=4;
         	tomasulo.addInst(InstType.MULTD,0,1,2);
         	tomasulo.addInst(InstType.DIVD,3,4,5);
         	break;
-    	case 3:	//LD ST同一位置
+    	case 3:	//LD ST鍚屼竴浣嶇疆
     		tomasulo.resource.freg[1].value=10;
         	tomasulo.resource.freg[2].value=4;
         	tomasulo.addInst(InstType.MULTD,0,1,2);
@@ -102,5 +102,5 @@ public class Main extends Application {
     		tomasulo.print();
     	tomasulo.print();
     }
-    
+
 }
