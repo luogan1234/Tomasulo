@@ -53,15 +53,46 @@ public class Resource {
 		return -1;
 	}
 	
+	public boolean checkMem(Buffer a,Buffer b)
+	{
+		if (b.inst!=null&&b.timeLeft==-1&&b.inst.order<a.inst.order&&b.inst.address()==a.inst.address())
+			return false;
+		return true;
+	}
+	
 	public void next(Buffer[] buffer,int n,int round)
 	{
-		int o=-1,i;
+		int o=-1,i,j;
 		for (i=0;i<n;++i)
 			if (buffer[i].isRunning())
 				buffer[i].next(round);
 		for (i=0;i<n;++i)
 			if (buffer[i].canStart()&&(o==-1||buffer[i].inst.order<buffer[o].inst.order))
-				o=i;
+			{
+				boolean p=true;
+				switch (buffer[i].type)
+				{
+				case LD:
+					for (j=0;j<3;++j)
+						if (!checkMem(buffer[i],stBuffer[j]))
+							p=false;
+					break;
+				case ST:
+					for (j=0;j<3;++j)
+						if (!checkMem(buffer[i],ldBuffer[j]))
+							p=false;
+					break;
+				case MULTD:
+					j=1-i;
+					if (buffer[j].timeLeft>4&&buffer[j].inst!=null&&buffer[j].inst.type==InstType.DIVD)
+						p=false;
+					break;
+				default:
+					break;
+				}
+				if (p)
+					o=i;
+			}
 		if (o!=-1)
 			buffer[o].start();
 	}
@@ -103,12 +134,36 @@ public class Resource {
 		write(multBuffer,2,buffer,res);
 	}
 	
-	public void print(Buffer[] buffer,int n)
+	public String[] getBuffer(Buffer[] buffer,int n)
 	{
-		for (int i=0;i<n;++i)
-			buffer[i].print();
+		String[] buffers = new String[buffer.length];
+		for (int i=0;i<buffer.length;++i)
+			buffers[i] = buffer[i].get();
+		return buffers;
 	}
 	
+	public String[] getFregInfo() {
+		String[] fregs = new String[11];
+		for (int i=0;i<11;++i)
+			fregs[i] = freg[i].info();
+		return fregs;
+	}
+	
+	public String[] getFregValue() {
+		String[] fregs = new String[11];
+		for (int i=0;i<11;++i)
+			fregs[i] = String.valueOf(freg[i].value);
+		return fregs;
+	}
+	
+	public String[] getRegValue() {
+		String[] regs = new String[11];
+		for (int i=0;i<11;++i)
+			regs[i] = String.valueOf(reg[i].value);
+		return regs;
+	}
+
+	/*
 	public void print()
 	{
 		int i;
@@ -127,5 +182,25 @@ public class Resource {
 		for (i=0;i<11;++i)
 			System.out.print(String.valueOf(reg[i].value)+' ');
 		System.out.println();
+	}
+	*/
+	
+	public void clear()
+	{
+		for (int i=0;i<11;++i)
+		{
+			reg[i].value=0;
+			freg[i].value=0;
+			freg[i].buffer=null;
+		}
+		for (int i=0;i<3;++i)
+		{
+			ldBuffer[i].clear();
+			stBuffer[i].clear();
+			addBuffer[i].clear();
+			mem.clear();
+			if (i<2)
+				multBuffer[i].clear();
+		}
 	}
 }

@@ -14,11 +14,11 @@ public class TomasuloCore {
     
     public Instruction[] insts;
     
-    private int num,round;
+    public int num,round;
     
     private int[] tot;
     
-    private boolean running;
+    public boolean running;
 
     public final boolean getB() { return b.get(); }
  
@@ -36,14 +36,7 @@ public class TomasuloCore {
     	num=0;running=false;
     }
     
-    public void newInsts()
-    {
-    	insts=new Instruction[100];
-    	num=round=0;
-    	tot=new int[7];
-    	Arrays.fill(tot, 0);
-    }
-    
+    //添加指令
     public void addInst(InstType type,int op1,int op2,int op3)
     {
     	++tot[type.ordinal()];
@@ -51,18 +44,25 @@ public class TomasuloCore {
     	++num;
     }
     
+    //开始执行
     public void start()
     {
     	assert(!running);
     	running=true;
     }
     
-    public void stop()
+    //清空内存寄存器，指令最多100条
+    public void clear()
     {
-    	assert(running);
     	running=false;
+    	insts=new Instruction[100];
+    	num=round=0;
+    	tot=new int[7];
+    	Arrays.fill(tot, 0);
+    	resource.clear();
     }
     
+    //判断是否结束
     public boolean check()
     {
     	for (int i=0;i<num;++i)
@@ -71,7 +71,8 @@ public class TomasuloCore {
     	return true;
     }
     
-    public void issue()
+    //发射一条指令
+    private void issue()
     {
     	int o=-1;
     	for (int i=0;i<num;++i)
@@ -113,6 +114,7 @@ public class TomasuloCore {
     		}
     }
     
+    //执行一轮
     public boolean next()
     {
     	assert(running);
@@ -126,13 +128,19 @@ public class TomasuloCore {
     	return res;
     }
     
+    //算法调试用
     public void print()
     {
     	System.out.println("-----------"+String.valueOf(round)+"-----------");
-    	for (int i=0;i<num;++i)
-    	{
-    		insts[i].print();
+    	for(int i = 0; i < num; i++) {
+    		System.out.println(insts[i].get());
     	}
-    	resource.print();
+    	System.out.println(Arrays.toString(resource.getBuffer(resource.ldBuffer, 3)));
+    	System.out.println(Arrays.toString(resource.getBuffer(resource.stBuffer, 3)));
+    	System.out.println(Arrays.toString(resource.getBuffer(resource.addBuffer, 3)));
+    	System.out.println(Arrays.toString(resource.getBuffer(resource.multBuffer, 2)));
+    	System.out.println(Arrays.toString(resource.getFregInfo()));
+    	System.out.println(Arrays.toString(resource.getFregValue()));
+    	System.out.println(Arrays.toString(resource.getRegValue()));
     }
 }

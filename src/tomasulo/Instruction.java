@@ -35,6 +35,12 @@ public class Instruction {
 		}
 	}
 	
+	public int address()
+	{
+		assert(type==InstType.LD&&type==InstType.ST);
+		return resource.reg[op3].value+op2;
+	}
+	
 	public double calc()
 	{
 		switch (type)
@@ -58,6 +64,16 @@ public class Instruction {
 		}
 	}
 	
+	public String get()
+	{
+		if (type == InstType.ADDD || type == InstType.SUBD || type == InstType.MULTD || type == InstType.DIVD)
+			return typeName()+" R"+Issue()+" R"+ExecComp()+" R"+WriteResult();
+		else if (type == InstType.LD || type == InstType.ST)
+			return typeName()+" R"+Issue()+" "+ExecComp()+" R"+WriteResult();
+		else return "";
+	}
+	
+	//以下是显示用函数
 	public String typeName()
 	{
 		String name;
@@ -73,7 +89,7 @@ public class Instruction {
 			name="LD";
 			break;
 		case MULTD:
-			name="MULTD";
+			name="MULD";
 			break;
 		case NOP:
 			name="NOP";
@@ -154,10 +170,5 @@ public class Instruction {
 			return String.valueOf(writeRound);
 		else
 			return "";
-	}
-	
-	public void print()
-	{
-		System.out.println(typeName()+':'+Issue()+' '+ExecComp()+' '+WriteResult());
 	}
 }

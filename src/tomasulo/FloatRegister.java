@@ -9,18 +9,19 @@ public class FloatRegister {
 		value=0;buffer=null;
 	}
 	
+	public void write(Buffer b,double res)
+	{
+		value=res;
+		if (buffer==b)
+			buffer=null;
+	}
+	
+	//œ‘ æ”√∫Ø ˝
 	public String info()
 	{
 		if (buffer==null)
 			return "";
 		else
 			return buffer.name;
-	}
-	
-	public void write(Buffer b,double res)
-	{
-		value=res;
-		if (buffer==b)
-			buffer=null;
 	}
 }
