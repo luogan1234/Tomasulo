@@ -1,23 +1,25 @@
 package tomasulo;
 
+import java.io.File;
+import java.util.Optional;
+
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
     private TomasuloCore core;
+    private Stage pStage;
 
     @Override
     public void start(Stage primaryStage) {
         try {
+            pStage = primaryStage;
             core = new TomasuloCore();
 
 //            Button btn = new Button();
@@ -39,7 +41,7 @@ public class Main extends Application {
             AnchorPane root = FXMLLoader.load(getClass().getClassLoader().getResource("TomasuloUI.fxml"));
 //            root.getChildren().add(btn);
 
-            Scene scene = new Scene(root, 640, 480);
+            Scene scene = new Scene(root, 640, 600);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
@@ -49,9 +51,30 @@ public class Main extends Application {
         }
     }
 
+    @FXML
+    public void inputInst() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("输入指令");
+        dialog.setHeaderText("请输入单条指令：");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(inst -> System.out.println("Your name: " + inst));
+    }
+
+    @FXML
+    public void loadInsts() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+            );
+        File file = fileChooser.showOpenDialog(pStage);
+        if (file != null) {
+            System.out.println("Your name: " + file.getName());
+        }
+    }
+
     public static void main(String[] args) {
         launch(args);
-        //testAnalyzer();
     }
 
     public static void testAnalyzer() {

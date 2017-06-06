@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
@@ -8,13 +9,13 @@
 <?import javafx.scene.layout.StackPane?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tomasulo.Main">
    <children>
       <VBox prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="47.0" prefWidth="640.0">
+            <HBox prefHeight="47.0" prefWidth="640.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false">
+                  <Button mnemonicParsing="false" onAction="#inputInst">
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -23,10 +24,10 @@
                         </ImageView>
                      </graphic>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button mnemonicParsing="false" onAction="#loadInsts">
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -35,7 +36,7 @@
                         </ImageView>
                      </graphic>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
                   <Button mnemonicParsing="false">
@@ -47,7 +48,7 @@
                         </ImageView>
                      </graphic>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
                   <Button mnemonicParsing="false">
@@ -59,7 +60,7 @@
                         </ImageView>
                      </graphic>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
                   <Button mnemonicParsing="false">
@@ -71,12 +72,178 @@
                         </ImageView>
                      </graphic>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
                </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </HBox>
-            <HBox prefHeight="201.0" prefWidth="640.0" />
+            <HBox prefHeight="204.0" prefWidth="640.0" spacing="10.0">
+               <children>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <Label text="指令队列" textAlignment="CENTER" />
+                        <TableView prefWidth="220.0">
+                          <columns>
+                            <TableColumn prefWidth="45.0" text="Name" />
+                            <TableColumn prefWidth="40.0" text="Desti" />
+                              <TableColumn prefWidth="53.0" text="Sourcej" />
+                              <TableColumn prefWidth="61.0" text="Sourcek" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" layoutX="20.0" layoutY="15.0">
+                     <children>
+                        <Label text="运行状态" textAlignment="CENTER" />
+                        <TableView prefWidth="140.0">
+                           <columns>
+                              <TableColumn prefWidth="39.28276062011719" text="Issue" />
+                              <TableColumn prefWidth="44.28271484375" text="Comp" />
+                              <TableColumn prefWidth="40.27764892578125" text="Write" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" layoutX="230.0" layoutY="15.0" prefHeight="186.0" prefWidth="186.0" spacing="1.0">
+                     <children>
+                        <Label text="Load Queue" textAlignment="CENTER" />
+                        <TableView prefWidth="126.0">
+                           <columns>
+                              <TableColumn prefWidth="48.682586669921875" text="Name" />
+                              <TableColumn prefWidth="40.68255615234375" text="Busy" />
+                              <TableColumn prefWidth="62.511932373046875" text="Address" />
+                           </columns>
+                        </TableView>
+                        <Label layoutX="47.0" layoutY="10.0" text="Store Queue" textAlignment="CENTER" />
+                        <TableView layoutX="10.0" layoutY="27.0" prefWidth="126.0">
+                           <columns>
+                              <TableColumn prefWidth="49.767913818359375" text="Name" />
+                              <TableColumn prefWidth="49.450469970703125" text="Busy" />
+                              <TableColumn prefWidth="57.511962890625" text="Address" />
+                              <TableColumn prefWidth="27.00006103515625" text="Qi" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox prefHeight="224.0" prefWidth="640.0" spacing="10.0">
+               <children>
+                  <VBox alignment="CENTER" layoutX="20.0" layoutY="15.0">
+                     <children>
+                        <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/clock.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="0" textAlignment="CENTER">
+                           <font>
+                              <Font size="31.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <Label text="内存" textAlignment="CENTER" />
+                        <TableView prefWidth="135.0">
+                           <columns>
+                              <TableColumn prefWidth="45.0" text="Addr" />
+                              <TableColumn prefWidth="58.450523376464844" text="Value" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" layoutX="20.0" layoutY="15.0">
+                     <children>
+                        <Label text="运行状态" textAlignment="CENTER" />
+                        <TableView prefWidth="385.0">
+                           <columns>
+                              <TableColumn prefWidth="39.28276062011719" text="Time" />
+                              <TableColumn prefWidth="44.28271484375" text="Name" />
+                              <TableColumn prefWidth="40.27764892578125" text="Busy" />
+                              <TableColumn prefWidth="40.27764892578125" text="Op" />
+                              <TableColumn prefWidth="44.28271484375" text="Vj" />
+                              <TableColumn prefWidth="39.28276062011719" text="Vk" />
+                              <TableColumn prefWidth="44.28271484375" text="Qj" />
+                              <TableColumn prefWidth="39.28276062011719" text="Qk" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+               </padding>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="192.0" prefWidth="640.0" spacing="5.0">
+               <children>
+                  <HBox>
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                           <children>
+                              <Label text="寄存器号" />
+                              <Label text="表达式" />
+                              <Label text="数据" />
+                           </children>
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Label text="浮点寄存器" textAlignment="CENTER" />
+                              <TableView prefHeight="74.0" prefWidth="595.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="F0" />
+                                  <TableColumn prefWidth="75.0" text="F1" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="188.0" prefWidth="620.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                           <children>
+                              <Label text="寄存器号" />
+                              <Label text="数据" />
+                           </children>
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Label text="整型寄存器" textAlignment="CENTER" />
+                              <TableView prefHeight="50.0" prefWidth="521.0">
+                                 <columns>
+                                    <TableColumn prefWidth="75.0" text="R0" />
+                                    <TableColumn prefWidth="75.0" text="R1" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
          </children>
       </VBox>
    </children>
