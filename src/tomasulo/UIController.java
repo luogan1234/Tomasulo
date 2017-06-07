@@ -229,8 +229,10 @@ public class UIController {
     @FXML
     public void clear() {
         System.out.println("Clear called!");
+        state().set(0);
         mainApp.core.clear();
         mainApp.getInstData().clear();
+        updateAll();
     }
     
     @FXML
@@ -253,13 +255,26 @@ public class UIController {
     }
     
     @FXML
-    public void next() {
+    public int next() {
         if (state().get() == 0) {
             state().set(1);
             mainApp.core.start();
         }
-        mainApp.core.next();
-        updateAll();
+        if (!mainApp.core.next()) {
+            updateAll();
+        } else {
+            updateAll();
+            state().set(2);
+            return -1;
+        }
+        return 0;
+    }
+    
+    @FXML
+    public void nextN() {
+        for (int i = 0; i < step; ++i)
+            if (next() != 0)
+                return;
     }
     
     public void addInstData() {

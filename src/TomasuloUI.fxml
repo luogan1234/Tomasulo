@@ -50,7 +50,7 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="nextNButton" disable="true" mnemonicParsing="false">
+                  <Button fx:id="nextNButton" disable="true" mnemonicParsing="false" onAction="#nextN">
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
