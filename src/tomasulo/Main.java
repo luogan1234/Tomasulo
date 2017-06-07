@@ -1,9 +1,10 @@
 package tomasulo;
 
 import java.io.File;
-import java.util.Optional;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.FileChooser;
@@ -12,51 +13,40 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
-    private TomasuloCore core;
-    private Analyzer analyzer;
-    private Stage pStage;
+    public TomasuloCore core;
+    public Analyzer analyzer;
+    public Stage pStage;
     
     // 0: not running, 1: running, 2: finish
     private int tomsulo_state = 0;
-    
-    @FXML
-    private Button inputButton;
-    
-    @FXML
-    private Button loadButton;
-    
-    @FXML
-    private Button nextButton;
-    
-    @FXML
-    private Button nextNButton;
-    
-    @FXML
-    private Button clearButton;
-    
-    @FXML
-    private TableView<Instruction> instTable;
-    
-    public void init() {
 
+    private ObservableList<InstructionTableItem> instTableList = FXCollections.observableArrayList();
+    public ObservableList<InstructionTableItem> getInstData() {
+        return instTableList;
     }
 
     @Override
     public void start(Stage primaryStage) {
         try {
             pStage = primaryStage;
-            core = new TomasuloCore();
-            analyzer = new Analyzer(core);
-
-            AnchorPane root = FXMLLoader.load(getClass().getClassLoader().getResource("TomasuloUI.fxml"));
+            analyzer = new Analyzer();
+            core = analyzer.tomasulo;
+            core.clear();
             
-            init();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("TomasuloUI.fxml"));
+            AnchorPane root =loader.load();
+            
+            //AnchorPane root = FXMLLoader.load(getClass().getClassLoader().getResource("TomasuloUI.fxml"));
+            
+            UIController controller = loader.getController();
+            controller.setMainApp(this);
             
             Scene scene = new Scene(root, 640, 600);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -68,40 +58,12 @@ public class Main extends Application {
         }
     }
 
-    @FXML
-    public void inputInst() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("输入指令");
-        dialog.setHeaderText("请输入单条指令：");
-
-        dialog.showAndWait().ifPresent(response -> {
-            if (analyzer.addInst(response) == false) {
-                Alert alert = new Alert(AlertType.ERROR, "指令格式不正确！");
-                alert.showAndWait();
-            }
-        });
-    }
-
-    @FXML
-    public void loadInsts() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Text Files", "*.txt")
-            );
-        File file = fileChooser.showOpenDialog(pStage);
-        if (file != null) {
-            System.out.println("Your name: " + file.getName());
-        }
-    }
-
     public static void main(String[] args) {
-        // launch(args);
-        testAnalyzer();
+        launch(args);
     }
 
     public static void testAnalyzer() {
-        TomasuloCore core = new TomasuloCore();
-        Analyzer analyzer = new Analyzer(core);
+        Analyzer analyzer = new Analyzer();
         
     	analyzer.tomasulo.clear();
     	analyzer.addInst("LD R6 34 R2");
