@@ -1,6 +1,7 @@
 package tomasulo;
 
 import javafx.application.Application;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +34,24 @@ public class Main extends Application {
         return reserveTableList;
     }
     
+    private FloatRegisterTableContent floatRegisterTableContent;
+    public FloatRegisterTableContent getFloatRegTableContent() {
+        return floatRegisterTableContent;
+    }
+    private ObservableList<StringProperty[]> floatRegisterTableData = FXCollections.observableArrayList();
+    public ObservableList<StringProperty[]> getFloatRegTableData() {
+        return floatRegisterTableData;
+    }
+    
+    private RegisterTableContent registerTableContent;
+    public RegisterTableContent getRegTableContent() {
+        return registerTableContent;
+    }
+    private ObservableList<StringProperty[]> registerTableData = FXCollections.observableArrayList();
+    public ObservableList<StringProperty[]> getRegTableData() {
+        return registerTableData;
+    }
+    
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -55,6 +74,13 @@ public class Main extends Application {
                 reserveTableList.add(new BufferTableItem(core.resource.addBuffer[i]));
             for (int i = 0; i < core.resource.multBuffer.length; ++i)
                 reserveTableList.add(new BufferTableItem(core.resource.multBuffer[i]));
+            
+            floatRegisterTableContent = new FloatRegisterTableContent(core.resource);
+            floatRegisterTableData.add(floatRegisterTableContent.info);
+            floatRegisterTableData.add(floatRegisterTableContent.value);
+            
+            registerTableContent = new RegisterTableContent(core.resource);
+            registerTableData.add(registerTableContent.value);
             
             UIController controller = loader.getController();
             controller.setMainApp(this);

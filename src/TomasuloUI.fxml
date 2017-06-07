@@ -88,7 +88,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <HBox prefHeight="250.0" spacing="10.0">
+            <HBox spacing="10.0">
                <children>
                   <VBox alignment="CENTER">
                      <children>
@@ -144,7 +144,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                </padding>
             </HBox>
-            <HBox prefHeight="180.0" spacing="10.0">
+            <HBox spacing="10.0">
                <children>
                   <VBox alignment="CENTER" layoutX="20.0" layoutY="15.0">
                      <children>
@@ -196,7 +196,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                </padding>
             </HBox>
-            <VBox alignment="CENTER" prefHeight="200.0" spacing="5.0">
+            <VBox alignment="CENTER" spacing="5.0">
                <children>
                   <HBox>
                      <children>
@@ -213,12 +213,7 @@
                         <VBox alignment="CENTER">
                            <children>
                               <Label text="浮点寄存器" textAlignment="CENTER" />
-                              <TableView prefHeight="74.0" prefWidth="595.0">
-                                <columns>
-                                  <TableColumn prefWidth="75.0" text="F0" />
-                                  <TableColumn prefWidth="75.0" text="F1" />
-                                </columns>
-                              </TableView>
+                              <TableView fx:id="floatRegTable" prefHeight="100.0" prefWidth="595.0" />
                            </children>
                         </VBox>
                      </children>
@@ -237,19 +232,14 @@
                         <VBox alignment="CENTER">
                            <children>
                               <Label text="整型寄存器" textAlignment="CENTER" />
-                              <TableView prefHeight="74.0" prefWidth="595.0">
-                                 <columns>
-                                    <TableColumn prefWidth="75.0" text="F0" />
-                                    <TableColumn prefWidth="75.0" text="F1" />
-                                 </columns>
-                              </TableView>
+                              <TableView fx:id="regTable" prefHeight="60.0" prefWidth="595.0" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
                </children>
                <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets left="10.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
          </children>

@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -104,6 +105,14 @@ public class UIController {
     @FXML
     private TableColumn<BufferTableItem, String> reserveTableQkCol;
     
+    // FloutRegTable
+    @FXML
+    private TableView<StringProperty[]> floatRegTable;
+    
+    // regTable
+    @FXML
+    private TableView<StringProperty[]> regTable;
+    
     private Main mainApp;
 
     @FXML
@@ -167,6 +176,7 @@ public class UIController {
         reserveTableVkCol.setCellValueFactory(cellData -> cellData.getValue().Vk);
         reserveTableQjCol.setCellValueFactory(cellData -> cellData.getValue().Qj);
         reserveTableQkCol.setCellValueFactory(cellData -> cellData.getValue().Qk);
+
     }
     
     @FXML
@@ -199,7 +209,6 @@ public class UIController {
             try {
                 reader = new BufferedReader(new FileReader(file));
                 String tempString = null;
-                int line = 1;
                 // 一次读入一行，直到读入null为文件结束
                 while ((tempString = reader.readLine()) != null) {
                     // 
@@ -210,7 +219,6 @@ public class UIController {
                         break;
                     }
                     addInstData();
-                    line++;
                 }
                 reader.close();
             } catch (IOException e) {
@@ -291,6 +299,8 @@ public class UIController {
         updateBuffer(mainApp.getLoadData());
         updateBuffer(mainApp.getStoreData());
         updateBuffer(mainApp.getReserveData());
+        mainApp.getFloatRegTableContent().update();
+        mainApp.getRegTableContent().update();
         timeLabel.setText(String.valueOf(mainApp.core.round));
     }
     
@@ -307,11 +317,32 @@ public class UIController {
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
 
+        // init floatRegTable
+        TableColumn<StringProperty[], String> column;
+        for (int i = 0; i < mainApp.core.resource.freg.length; ++i) {
+            column = new TableColumn<StringProperty[], String>("F"+String.valueOf(i));
+            column.setPrefWidth(floatRegTable.getPrefWidth()/(mainApp.core.resource.freg.length+1));
+            final int ii = i;
+            column.setCellValueFactory(cellData -> cellData.getValue()[ii]);
+            floatRegTable.getColumns().add(column);
+        }
+        
+        // init regTable
+        for (int i = 0; i < mainApp.core.resource.reg.length; ++i) {
+            column = new TableColumn<StringProperty[], String>("R"+String.valueOf(i));
+            column.setPrefWidth(regTable.getPrefWidth()/(mainApp.core.resource.reg.length+1));
+            final int ii = i;
+            column.setCellValueFactory(cellData -> cellData.getValue()[ii]);
+            regTable.getColumns().add(column);
+        }
+
         // Add observable list data to the table
         instTable.setItems(mainApp.getInstData());
         instStatusTable.setItems(mainApp.getInstData());
         loadTable.setItems(mainApp.getLoadData());
         storeTable.setItems(mainApp.getStoreData());
         reserveTable.setItems(mainApp.getReserveData());
+        floatRegTable.setItems(mainApp.getFloatRegTableData());
+        regTable.setItems(mainApp.getRegTableData());
     }
 }
