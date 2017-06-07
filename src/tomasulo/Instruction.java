@@ -105,6 +105,27 @@ public class Instruction {
 		}
 		return name+String.valueOf(num);
 	}
+	
+	public String Desti()
+	{
+		return "F"+String.valueOf(op1);
+	}
+	
+	public String Srcj()
+	{
+		if (type==InstType.LD||type==InstType.ST)
+			return String.valueOf(op2);
+		else
+			return "F"+String.valueOf(op2);
+	}
+	
+	public String Srck()
+	{
+		if (type==InstType.LD||type==InstType.ST)
+			return "R"+String.valueOf(op3);
+		else
+			return "F"+String.valueOf(op3);
+	}
 
 	public String Vj()
 	{
