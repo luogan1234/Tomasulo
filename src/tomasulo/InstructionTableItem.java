@@ -38,9 +38,9 @@ public class InstructionTableItem {
         execComp.set(originalInst.ExecComp());
         writeResult.set(originalInst.WriteResult());
         
-        op1.set("R"+String.valueOf(originalInst.op1));
-        op2.set("R"+String.valueOf(originalInst.op2));
-        op3.set("R"+String.valueOf(originalInst.op3));
+        op1.set(originalInst.Desti());
+        op2.set(originalInst.Srcj());
+        op3.set(originalInst.Srck());
     }
     
 }

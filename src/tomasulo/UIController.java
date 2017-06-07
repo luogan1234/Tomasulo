@@ -1,10 +1,19 @@
 package tomasulo;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
@@ -12,21 +21,26 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 
 public class UIController {
+    // 0: not running, 1: running, 2: finish
+    private IntegerProperty tomasulo_state = new SimpleIntegerProperty(0);
+    public IntegerProperty state() { return tomasulo_state; }
+    
+    private int step = 5; 
     
     @FXML
     private Button inputButton;
-    
     @FXML
     private Button loadButton;
-    
     @FXML
     private Button nextButton;
-    
     @FXML
     private Button nextNButton;
-    
     @FXML
     private Button clearButton;
+    @FXML
+    private Button settingButton;
+    @FXML
+    private Label timeLabel;
     
     // InstTable
     @FXML
@@ -40,15 +54,119 @@ public class UIController {
     @FXML
     private TableColumn<InstructionTableItem, String> instTableSkCol;
     
+    // InstStatusTable
+    @FXML
+    private TableView<InstructionTableItem> instStatusTable;
+    @FXML
+    private TableColumn<InstructionTableItem, String> instStatusTableIssueCol;
+    @FXML
+    private TableColumn<InstructionTableItem, String> instStatusTableCompCol;
+    @FXML
+    private TableColumn<InstructionTableItem, String> instStatusTableWriteCol;
+    
+    // LoadTable
+    @FXML
+    private TableView<BufferTableItem> loadTable;
+    @FXML
+    private TableColumn<BufferTableItem, String> loadTableNameCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> loadTableBusyCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> loadTableAddrCol;
+    
+    // StoreTable
+    @FXML
+    private TableView<BufferTableItem> storeTable;
+    @FXML
+    private TableColumn<BufferTableItem, String> storeTableNameCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> storeTableBusyCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> storeTableAddrCol;
+    
+    // ReserveTable
+    @FXML
+    private TableView<BufferTableItem> reserveTable;
+    @FXML
+    private TableColumn<BufferTableItem, String> reserveTableTimeCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> reserveTableNameCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> reserveTableBusyCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> reserveTableOpCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> reserveTableVjCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> reserveTableVkCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> reserveTableQjCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> reserveTableQkCol;
+    
     private Main mainApp;
 
     @FXML
     public void initialize() {
+        // inst state
+        state().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                switch (newValue.intValue()) {
+                case 0:
+                    inputButton.setDisable(false);
+                    loadButton.setDisable(false);
+                    nextButton.setDisable(true);
+                    nextNButton.setDisable(true);
+                    break;
+                case 1:
+                    inputButton.setDisable(true);
+                    loadButton.setDisable(true);
+                    nextButton.setDisable(false);
+                    nextNButton.setDisable(false);
+                    break;
+                case 2:
+                    inputButton.setDisable(true);
+                    loadButton.setDisable(true);
+                    nextButton.setDisable(true);
+                    nextNButton.setDisable(true);
+                    break;
+                default:
+                    break;
+                }
+            }
+        });
+        
         // init instTable
         instTableNameCol.setCellValueFactory(cellData -> cellData.getValue().typeName);
         instTableDestCol.setCellValueFactory(cellData -> cellData.getValue().op1);
         instTableSjCol.setCellValueFactory(cellData -> cellData.getValue().op2);
         instTableSkCol.setCellValueFactory(cellData -> cellData.getValue().op3);
+        
+        // init instStatusTable
+        instStatusTableIssueCol.setCellValueFactory(cellData -> cellData.getValue().issue);
+        instStatusTableCompCol.setCellValueFactory(cellData -> cellData.getValue().execComp);
+        instStatusTableWriteCol.setCellValueFactory(cellData -> cellData.getValue().writeResult);
+        
+        // init loadTable
+        loadTableNameCol.setCellValueFactory(cellData -> cellData.getValue().name);
+        loadTableBusyCol.setCellValueFactory(cellData -> cellData.getValue().busy);
+        loadTableAddrCol.setCellValueFactory(cellData -> cellData.getValue().address);
+        
+        // init storeTable
+        storeTableNameCol.setCellValueFactory(cellData -> cellData.getValue().name);
+        storeTableBusyCol.setCellValueFactory(cellData -> cellData.getValue().busy);
+        storeTableAddrCol.setCellValueFactory(cellData -> cellData.getValue().address);
+        
+        // init reserveTable
+        reserveTableTimeCol.setCellValueFactory(cellData -> cellData.getValue().time);
+        reserveTableNameCol.setCellValueFactory(cellData -> cellData.getValue().name);
+        reserveTableBusyCol.setCellValueFactory(cellData -> cellData.getValue().busy);
+        reserveTableOpCol.setCellValueFactory(cellData -> cellData.getValue().op);
+        reserveTableVjCol.setCellValueFactory(cellData -> cellData.getValue().Vj);
+        reserveTableVkCol.setCellValueFactory(cellData -> cellData.getValue().Vk);
+        reserveTableQjCol.setCellValueFactory(cellData -> cellData.getValue().Qj);
+        reserveTableQkCol.setCellValueFactory(cellData -> cellData.getValue().Qk);
     }
     
     @FXML
@@ -66,11 +184,7 @@ public class UIController {
             }
         });
         
-        if (mainApp.getInstData().size() < mainApp.core.num) {
-            for (int i = mainApp.getInstData().size(); i < mainApp.core.num; ++i) {
-                mainApp.getInstData().add(new InstructionTableItem(mainApp.core.insts[i]));
-            }
-        }
+        addInstData();
     }
 
     @FXML
@@ -81,8 +195,98 @@ public class UIController {
             );
         File file = fileChooser.showOpenDialog(mainApp.pStage);
         if (file != null) {
-            System.out.println("Your name: " + file.getName());
+            BufferedReader reader = null;
+            try {
+                reader = new BufferedReader(new FileReader(file));
+                String tempString = null;
+                int line = 1;
+                // 一次读入一行，直到读入null为文件结束
+                while ((tempString = reader.readLine()) != null) {
+                    // 
+                    System.out.println(tempString);
+                    if (mainApp.analyzer.addInst(tempString) == false) {
+                        Alert alert = new Alert(AlertType.ERROR, "指令格式不正确！");
+                        alert.showAndWait();
+                        break;
+                    }
+                    addInstData();
+                    line++;
+                }
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e1) {
+                    }
+                }
+            }
         }
+    }
+    
+    @FXML
+    public void clear() {
+        System.out.println("Clear called!");
+        mainApp.core.clear();
+        mainApp.getInstData().clear();
+    }
+    
+    @FXML
+    public void setN() {
+        TextInputDialog dialog = new TextInputDialog(String.valueOf(step));
+        dialog.setTitle("设置多步执行步数");
+        dialog.setHeaderText("多步时，每次执行次数：");
+
+        dialog.showAndWait().ifPresent(response -> {
+            System.out.println(response);
+            Integer i = Integer.valueOf(response);
+            if (i.intValue() < 2) {
+                Alert alert = new Alert(AlertType.ERROR, "步数格式不正确！");
+                alert.showAndWait();
+                return;
+            }
+            step = i.intValue();
+        });
+        
+    }
+    
+    @FXML
+    public void next() {
+        if (state().get() == 0) {
+            state().set(1);
+            mainApp.core.start();
+        }
+        mainApp.core.next();
+        updateAll();
+    }
+    
+    public void addInstData() {
+        if (mainApp.getInstData().size() < mainApp.core.num) {
+            for (int i = mainApp.getInstData().size(); i < mainApp.core.num; ++i) {
+                mainApp.getInstData().add(new InstructionTableItem(mainApp.core.insts[i]));
+            }
+            nextButton.setDisable(false);
+        }
+    }
+    
+    public void updateAll() {
+        updateInstr(mainApp.getInstData());
+        updateBuffer(mainApp.getLoadData());
+        updateBuffer(mainApp.getStoreData());
+        updateBuffer(mainApp.getReserveData());
+        timeLabel.setText(String.valueOf(mainApp.core.round));
+    }
+    
+    public void updateBuffer(ObservableList<BufferTableItem> list) {
+        for (int i = 0; i < list.size(); ++i)
+            list.get(i).update();
+    }
+    
+    public void updateInstr(ObservableList<InstructionTableItem> list) {
+        for (int i = 0; i < list.size(); ++i)
+            list.get(i).update();
     }
     
     public void setMainApp(Main mainApp) {
@@ -90,5 +294,9 @@ public class UIController {
 
         // Add observable list data to the table
         instTable.setItems(mainApp.getInstData());
+        instStatusTable.setItems(mainApp.getInstData());
+        loadTable.setItems(mainApp.getLoadData());
+        storeTable.setItems(mainApp.getStoreData());
+        reserveTable.setItems(mainApp.getReserveData());
     }
 }

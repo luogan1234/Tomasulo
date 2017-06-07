@@ -1,36 +1,38 @@
 package tomasulo;
 
-import java.io.File;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
     public TomasuloCore core;
     public Analyzer analyzer;
     public Stage pStage;
-    
-    // 0: not running, 1: running, 2: finish
-    private int tomsulo_state = 0;
 
     private ObservableList<InstructionTableItem> instTableList = FXCollections.observableArrayList();
     public ObservableList<InstructionTableItem> getInstData() {
         return instTableList;
     }
 
+    private ObservableList<BufferTableItem> loadTableList = FXCollections.observableArrayList();
+    public ObservableList<BufferTableItem> getLoadData() {
+        return loadTableList;
+    }
+    
+    private ObservableList<BufferTableItem> storeTableList = FXCollections.observableArrayList();
+    public ObservableList<BufferTableItem> getStoreData() {
+        return storeTableList;
+    }
+    
+    private ObservableList<BufferTableItem> reserveTableList = FXCollections.observableArrayList();
+    public ObservableList<BufferTableItem> getReserveData() {
+        return reserveTableList;
+    }
+    
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -43,15 +45,25 @@ public class Main extends Application {
             loader.setLocation(getClass().getClassLoader().getResource("TomasuloUI.fxml"));
             AnchorPane root =loader.load();
             
-            //AnchorPane root = FXMLLoader.load(getClass().getClassLoader().getResource("TomasuloUI.fxml"));
+            for (int i = 0; i < core.resource.ldBuffer.length; ++i)
+                loadTableList.add(new BufferTableItem(core.resource.ldBuffer[i]));
+            
+            for (int i = 0; i < core.resource.stBuffer.length; ++i)
+                storeTableList.add(new BufferTableItem(core.resource.stBuffer[i]));
+            
+            for (int i = 0; i < core.resource.addBuffer.length; ++i)
+                reserveTableList.add(new BufferTableItem(core.resource.addBuffer[i]));
+            for (int i = 0; i < core.resource.multBuffer.length; ++i)
+                reserveTableList.add(new BufferTableItem(core.resource.multBuffer[i]));
             
             UIController controller = loader.getController();
             controller.setMainApp(this);
             
-            Scene scene = new Scene(root, 640, 600);
+            Scene scene = new Scene(root, 640, 700);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
+            primaryStage.setTitle("Tomasulo模拟器 by 罗干 高童 王笑晗");
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
