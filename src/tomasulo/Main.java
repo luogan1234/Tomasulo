@@ -9,38 +9,55 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
     private TomasuloCore core;
+    private Analyzer analyzer;
     private Stage pStage;
+    
+    // 0: not running, 1: running, 2: finish
+    private int tomsulo_state = 0;
+    
+    @FXML
+    private Button inputButton;
+    
+    @FXML
+    private Button loadButton;
+    
+    @FXML
+    private Button nextButton;
+    
+    @FXML
+    private Button nextNButton;
+    
+    @FXML
+    private Button clearButton;
+    
+    @FXML
+    private TableView<Instruction> instTable;
+    
+    public void init() {
+
+    }
 
     @Override
     public void start(Stage primaryStage) {
         try {
             pStage = primaryStage;
             core = new TomasuloCore();
-
-//            Button btn = new Button();
-//            btn.setText(core.bProperty().toString());
-//            core.bProperty().addListener(new ChangeListener<Object>(){
-//                @Override
-//                public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-//                    btn.setText(core.bProperty().toString());
-//                }
-//            });
-//
-//            btn.setOnAction(new EventHandler<ActionEvent>() {
-//                @Override
-//                public void handle(ActionEvent event) {
-//                    core.action();
-//                }
-//            });
+            analyzer = new Analyzer(core);
 
             AnchorPane root = FXMLLoader.load(getClass().getClassLoader().getResource("TomasuloUI.fxml"));
-//            root.getChildren().add(btn);
-
+            
+            init();
+            
             Scene scene = new Scene(root, 640, 600);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
@@ -57,8 +74,12 @@ public class Main extends Application {
         dialog.setTitle("输入指令");
         dialog.setHeaderText("请输入单条指令：");
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(inst -> System.out.println("Your name: " + inst));
+        dialog.showAndWait().ifPresent(response -> {
+            if (analyzer.addInst(response) == false) {
+                Alert alert = new Alert(AlertType.ERROR, "指令格式不正确！");
+                alert.showAndWait();
+            }
+        });
     }
 
     @FXML
@@ -74,11 +95,14 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+        // launch(args);
+        testAnalyzer();
     }
 
     public static void testAnalyzer() {
-    	Analyzer analyzer = new Analyzer();
+        TomasuloCore core = new TomasuloCore();
+        Analyzer analyzer = new Analyzer(core);
+        
     	analyzer.tomasulo.clear();
     	analyzer.addInst("LD R6 34 R2");
     	analyzer.addInst("LD R2 45 R3");

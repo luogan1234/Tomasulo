@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 public class Analyzer {
 	public TomasuloCore tomasulo;
 	
-	public Analyzer() {
-		tomasulo = new TomasuloCore();
+	public Analyzer(TomasuloCore _tomasulo) {
+		tomasulo = _tomasulo;
 	}
 	
 	public boolean addInst(String inst) { // format: type op1 op2 op3

@@ -15,7 +15,7 @@
          <children>
             <HBox prefHeight="47.0" prefWidth="640.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#inputInst">
+                  <Button fx:id="inputButton" mnemonicParsing="false" onAction="#inputInst">
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -27,7 +27,7 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#loadInsts">
+                  <Button fx:id="loadButton" mnemonicParsing="false" onAction="#loadInsts">
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -39,7 +39,7 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="nextButton" disable="true" mnemonicParsing="false">
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -51,7 +51,7 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="nextNButton" disable="true" mnemonicParsing="false">
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -63,7 +63,7 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="clearButton" mnemonicParsing="false">
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
