@@ -338,12 +338,18 @@ public class UIController {
         updateBuffer(mainApp.getLoadData());
         updateBuffer(mainApp.getStoreData());
         updateBuffer(mainApp.getReserveData());
+        updateMemory(mainApp.getMemoryData());
         mainApp.getFloatRegTableContent().update();
         mainApp.getRegTableContent().update();
         timeLabel.setText(String.valueOf(mainApp.core.round));
     }
     
     public void updateBuffer(ObservableList<BufferTableItem> list) {
+        for (int i = 0; i < list.size(); ++i)
+            list.get(i).update();
+    }
+    
+    public void updateMemory(ObservableList<MemoryTableItem> list) {
         for (int i = 0; i < list.size(); ++i)
             list.get(i).update();
     }
