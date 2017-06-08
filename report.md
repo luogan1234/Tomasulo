@@ -3,7 +3,7 @@
 王笑晗 2013011327
 
 ## 项目构成 ##
-整个文件夹即Tomasulo算法的Java工程：在src目录下，包含界面文件TomasuloUI.fxml，和程序代码文件夹tomasulo，其中包含输入解析、tomasulo算法、界面控制相关的一系列java代码；example目录下包含3个测试用例，在运行程序后可以直接导入；img目录下包含界面上的一些图标图片。
+整个文件夹即Tomasulo算法的Java工程：在src目录下，包含界面文件TomasuloUI.fxml，和程序代码文件夹tomasulo，其中包含输入解析、tomasulo算法、界面控制相关的一系列java代码；example目录下包含几个测试用例，在运行程序后可以直接导入；img目录下包含界面上的一些图标图片。
 
 ## 输入解析 ##
 
