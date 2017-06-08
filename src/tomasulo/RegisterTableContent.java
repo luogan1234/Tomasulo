@@ -25,4 +25,16 @@ public class RegisterTableContent {
             value[i].set(String.valueOf(regValue[i]));
     }
     
+    public void updateFromUI(int i, String s) {
+        try {
+            int v = Integer.valueOf(s);
+            res.reg[i].value = v;
+        } catch (NumberFormatException e) {
+            System.out.println("NumberFormatException!");
+        } finally {
+            update();
+        }
+
+    }
+    
 }

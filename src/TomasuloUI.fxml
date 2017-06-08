@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tomasulo.UIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tomasulo.UIController">
    <children>
       <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -93,12 +93,12 @@
                   <VBox alignment="CENTER">
                      <children>
                         <Label text="指令队列" textAlignment="CENTER" />
-                        <TableView fx:id="instTable" prefWidth="220.0">
+                        <TableView fx:id="instTable" prefHeight="228.0" prefWidth="250.0">
                           <columns>
-                            <TableColumn fx:id="instTableNameCol" prefWidth="45.0" sortable="false" text="Name" />
-                            <TableColumn fx:id="instTableDestCol" prefWidth="40.0" sortable="false" text="Desti" />
-                              <TableColumn fx:id="instTableSjCol" prefWidth="53.0" sortable="false" text="Sourcej" />
-                              <TableColumn fx:id="instTableSkCol" prefWidth="61.0" sortable="false" text="Sourcek" />
+                            <TableColumn fx:id="instTableNameCol" prefWidth="57.099504470825195" sortable="false" text="Name" />
+                            <TableColumn fx:id="instTableDestCol" prefWidth="50.49980163574219" sortable="false" text="Desti" />
+                              <TableColumn fx:id="instTableSjCol" prefWidth="63.899620056152344" sortable="false" text="Sourcej" />
+                              <TableColumn fx:id="instTableSkCol" prefWidth="64.09956359863281" sortable="false" text="Sourcek" />
                           </columns>
                         </TableView>
                      </children>
@@ -106,11 +106,11 @@
                   <VBox alignment="CENTER" layoutX="20.0" layoutY="15.0">
                      <children>
                         <Label text="运行状态" textAlignment="CENTER" />
-                        <TableView fx:id="instStatusTable" prefWidth="140.0">
+                        <TableView fx:id="instStatusTable" prefWidth="160.0">
                            <columns>
-                              <TableColumn fx:id="instStatusTableIssueCol" prefWidth="39.28276062011719" sortable="false" text="Issue" />
-                              <TableColumn fx:id="instStatusTableCompCol" prefWidth="44.28271484375" sortable="false" text="Comp" />
-                              <TableColumn fx:id="instStatusTableWriteCol" prefWidth="40.27764892578125" sortable="false" text="Write" />
+                              <TableColumn fx:id="instStatusTableIssueCol" prefWidth="48.799591064453125" sortable="false" text="Issue" />
+                              <TableColumn fx:id="instStatusTableCompCol" prefWidth="49.099517822265625" sortable="false" text="Comp" />
+                              <TableColumn fx:id="instStatusTableWriteCol" prefWidth="55.399017333984375" sortable="false" text="Write" />
                            </columns>
                         </TableView>
                      </children>
@@ -132,8 +132,8 @@
                               <TableColumn fx:id="storeTableTimeCol" prefWidth="42.40277099609375" text="Time" />
                               <TableColumn fx:id="storeTableNameCol" prefWidth="57.59722900390625" text="Name" />
                               <TableColumn fx:id="storeTableBusyCol" prefWidth="49.450469970703125" text="Busy" />
-                              <TableColumn fx:id="storeTableAddrCol" prefWidth="57.511962890625" text="Address" />
-                              <TableColumn fx:id="storeTableQjCol" prefWidth="27.00006103515625" text="Qj" />
+                              <TableColumn fx:id="storeTableAddrCol" prefWidth="42.0999755859375" text="Addr" />
+                              <TableColumn fx:id="storeTableQjCol" prefWidth="44.9000244140625" text="Qj" />
                            </columns>
                         </TableView>
                      </children>
@@ -146,7 +146,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                </padding>
             </HBox>
-            <HBox spacing="10.0">
+            <HBox prefHeight="441.0" prefWidth="700.0" spacing="10.0">
                <children>
                   <VBox alignment="CENTER" layoutX="20.0" layoutY="15.0">
                      <children>
@@ -170,8 +170,8 @@
                         <Label text="内存" textAlignment="CENTER" />
                         <TableView fx:id="memoryTable" editable="true" prefWidth="135.0">
                            <columns>
-                              <TableColumn fx:id="memoryTableAddrCol" editable="false" prefWidth="45.0" text="Addr" />
-                              <TableColumn fx:id="memoryTableValueCol" prefWidth="58.450523376464844" text="Value" />
+                              <TableColumn fx:id="memoryTableAddrCol" editable="false" prefWidth="54.60015869140625" text="Addr" />
+                              <TableColumn fx:id="memoryTableValueCol" prefWidth="53.60020446777344" text="Value" />
                            </columns>
                         </TableView>
                      </children>
@@ -179,16 +179,16 @@
                   <VBox alignment="CENTER" layoutX="20.0" layoutY="15.0">
                      <children>
                         <Label text="运行状态" textAlignment="CENTER" />
-                        <TableView fx:id="reserveTable" prefWidth="385.0">
+                        <TableView fx:id="reserveTable" prefHeight="200.0" prefWidth="441.0">
                            <columns>
-                              <TableColumn fx:id="reserveTableTimeCol" prefWidth="39.28276062011719" text="Time" />
-                              <TableColumn fx:id="reserveTableNameCol" prefWidth="44.28271484375" text="Name" />
-                              <TableColumn fx:id="reserveTableBusyCol" prefWidth="40.27764892578125" text="Busy" />
-                              <TableColumn fx:id="reserveTableOpCol" prefWidth="40.27764892578125" text="Op" />
-                              <TableColumn fx:id="reserveTableVjCol" prefWidth="44.28271484375" text="Vj" />
-                              <TableColumn fx:id="reserveTableVkCol" prefWidth="39.28276062011719" text="Vk" />
-                              <TableColumn fx:id="reserveTableQjCol" prefWidth="44.28271484375" text="Qj" />
-                              <TableColumn fx:id="reserveTableQkCol" prefWidth="39.28276062011719" text="Qk" />
+                              <TableColumn fx:id="reserveTableTimeCol" prefWidth="53.19952392578125" text="Time" />
+                              <TableColumn fx:id="reserveTableNameCol" prefWidth="56.79962158203125" text="Name" />
+                              <TableColumn fx:id="reserveTableBusyCol" prefWidth="51.39947509765625" text="Busy" />
+                              <TableColumn fx:id="reserveTableOpCol" prefWidth="54.39935302734375" text="Op" />
+                              <TableColumn fx:id="reserveTableVjCol" prefWidth="49.798797607421875" text="Vj" />
+                              <TableColumn fx:id="reserveTableVkCol" prefWidth="45.8988037109375" text="Vk" />
+                              <TableColumn fx:id="reserveTableQjCol" prefWidth="50.19903564453125" text="Qj" />
+                              <TableColumn fx:id="reserveTableQkCol" prefWidth="54.899169921875" text="Qk" />
                            </columns>
                         </TableView>
                      </children>
@@ -215,7 +215,7 @@
                         <VBox alignment="CENTER">
                            <children>
                               <Label text="浮点寄存器" textAlignment="CENTER" />
-                              <TableView fx:id="floatRegTable" prefHeight="100.0" prefWidth="595.0" />
+                              <TableView fx:id="floatRegTable" editable="true" prefHeight="100.0" prefWidth="595.0" />
                            </children>
                         </VBox>
                      </children>
@@ -234,7 +234,7 @@
                         <VBox alignment="CENTER">
                            <children>
                               <Label text="整型寄存器" textAlignment="CENTER" />
-                              <TableView fx:id="regTable" prefHeight="60.0" prefWidth="595.0" />
+                              <TableView fx:id="regTable" editable="true" prefHeight="60.0" prefWidth="595.0" />
                            </children>
                         </VBox>
                      </children>

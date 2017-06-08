@@ -93,7 +93,7 @@ public class Main extends Application {
             UIController controller = loader.getController();
             controller.setMainApp(this);
             
-            Scene scene = new Scene(root, 640, 750);
+            Scene scene = new Scene(root, 700, 800);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);

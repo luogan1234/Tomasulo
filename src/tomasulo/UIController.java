@@ -145,12 +145,18 @@ public class UIController {
                     loadButton.setDisable(false);
                     nextButton.setDisable(true);
                     nextNButton.setDisable(true);
+                    floatRegTable.setEditable(true);
+                    regTable.setEditable(true);
+                    memoryTableValueCol.setEditable(true);
                     break;
                 case 1:
                     inputButton.setDisable(true);
                     loadButton.setDisable(true);
                     nextButton.setDisable(false);
                     nextNButton.setDisable(false);
+                    floatRegTable.setEditable(false);
+                    regTable.setEditable(false);
+                    memoryTableValueCol.setEditable(false);
                     break;
                 case 2:
                     inputButton.setDisable(true);
@@ -364,20 +370,60 @@ public class UIController {
 
         // init floatRegTable
         TableColumn<StringProperty[], String> column;
+        EventHandler<CellEditEvent<StringProperty[], String>> handler = 
+                new EventHandler<CellEditEvent<StringProperty[], String>>() {
+            @Override
+            public void handle(CellEditEvent<StringProperty[], String> t) {
+                if (t.getTablePosition().getRow() == 0) {
+                    System.out.println("This should not happen!");
+                    mainApp.getFloatRegTableData().get(0)
+                        [t.getTablePosition().getColumn()].set(t.getNewValue());
+                    mainApp.getFloatRegTableData().get(0)
+                        [t.getTablePosition().getColumn()].set(t.getOldValue());
+                } else {
+                    mainApp.getFloatRegTableContent()
+                        .updateFromUI(t.getTablePosition().getColumn(), t.getNewValue());
+                }
+                updateAll();
+            }
+        };
+        
         for (int i = 0; i < mainApp.core.resource.freg.length; ++i) {
             column = new TableColumn<StringProperty[], String>("F"+String.valueOf(i));
             column.setPrefWidth(floatRegTable.getPrefWidth()/(mainApp.core.resource.freg.length+1));
             final int ii = i;
             column.setCellValueFactory(cellData -> cellData.getValue()[ii]);
+            
+            // make editable
+            column.setEditable(true);
+            column.setCellFactory(TextFieldTableCell.forTableColumn());
+            column.setSortable(false);
+            column.setOnEditCommit(handler);
+            
             floatRegTable.getColumns().add(column);
         }
         
         // init regTable
+        handler = new EventHandler<CellEditEvent<StringProperty[], String>>() {
+            @Override
+            public void handle(CellEditEvent<StringProperty[], String> t) {
+                mainApp.getRegTableContent()
+                    .updateFromUI(t.getTablePosition().getColumn(), t.getNewValue());
+            }
+        };
+        
         for (int i = 0; i < mainApp.core.resource.reg.length; ++i) {
             column = new TableColumn<StringProperty[], String>("R"+String.valueOf(i));
             column.setPrefWidth(regTable.getPrefWidth()/(mainApp.core.resource.reg.length+1));
             final int ii = i;
             column.setCellValueFactory(cellData -> cellData.getValue()[ii]);
+            
+            // make editable
+            column.setEditable(true);
+            column.setCellFactory(TextFieldTableCell.forTableColumn());
+            column.setSortable(false);
+            column.setOnEditCommit(handler);
+            
             regTable.getColumns().add(column);
         }
 

@@ -31,4 +31,16 @@ public class FloatRegisterTableContent {
         }
     }
     
+    public void updateFromUI(int i, String s) {
+        try {
+            double v = Double.valueOf(s);
+            res.freg[i].value = v;
+        } catch (NumberFormatException e) {
+            System.out.println("NumberFormatException!");
+        } finally {
+            update();
+        }
+
+    }
+    
 }
