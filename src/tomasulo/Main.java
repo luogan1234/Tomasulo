@@ -52,6 +52,11 @@ public class Main extends Application {
         return registerTableData;
     }
     
+    private ObservableList<MemoryTableItem> memoryTableList = FXCollections.observableArrayList();
+    public ObservableList<MemoryTableItem> getMemoryData() {
+        return memoryTableList;
+    }
+    
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -82,10 +87,13 @@ public class Main extends Application {
             registerTableContent = new RegisterTableContent(core.resource);
             registerTableData.add(registerTableContent.value);
             
+            for (int i = 0; i < core.resource.mem.len; ++i)
+                memoryTableList.add(new MemoryTableItem(core.resource.mem, i));
+            
             UIController controller = loader.getController();
             controller.setMainApp(this);
             
-            Scene scene = new Scene(root, 640, 700);
+            Scene scene = new Scene(root, 640, 750);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);

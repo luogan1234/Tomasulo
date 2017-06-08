@@ -11,15 +11,19 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
+import javafx.util.converter.NumberStringConverter;
 
 public class UIController {
     // 0: not running, 1: running, 2: finish
@@ -69,6 +73,8 @@ public class UIController {
     @FXML
     private TableView<BufferTableItem> loadTable;
     @FXML
+    private TableColumn<BufferTableItem, String> loadTableTimeCol;
+    @FXML
     private TableColumn<BufferTableItem, String> loadTableNameCol;
     @FXML
     private TableColumn<BufferTableItem, String> loadTableBusyCol;
@@ -79,11 +85,15 @@ public class UIController {
     @FXML
     private TableView<BufferTableItem> storeTable;
     @FXML
+    private TableColumn<BufferTableItem, String> storeTableTimeCol;
+    @FXML
     private TableColumn<BufferTableItem, String> storeTableNameCol;
     @FXML
     private TableColumn<BufferTableItem, String> storeTableBusyCol;
     @FXML
     private TableColumn<BufferTableItem, String> storeTableAddrCol;
+    @FXML
+    private TableColumn<BufferTableItem, String> storeTableQjCol;
     
     // ReserveTable
     @FXML
@@ -112,6 +122,14 @@ public class UIController {
     // regTable
     @FXML
     private TableView<StringProperty[]> regTable;
+    
+    // ReserveTable
+    @FXML
+    private TableView<MemoryTableItem> memoryTable;
+    @FXML
+    private TableColumn<MemoryTableItem, Number> memoryTableAddrCol;
+    @FXML
+    private TableColumn<MemoryTableItem, Number> memoryTableValueCol;
     
     private Main mainApp;
 
@@ -158,14 +176,17 @@ public class UIController {
         instStatusTableWriteCol.setCellValueFactory(cellData -> cellData.getValue().writeResult);
         
         // init loadTable
+        loadTableTimeCol.setCellValueFactory(cellData -> cellData.getValue().time);
         loadTableNameCol.setCellValueFactory(cellData -> cellData.getValue().name);
         loadTableBusyCol.setCellValueFactory(cellData -> cellData.getValue().busy);
         loadTableAddrCol.setCellValueFactory(cellData -> cellData.getValue().address);
         
         // init storeTable
+        storeTableTimeCol.setCellValueFactory(cellData -> cellData.getValue().time);
         storeTableNameCol.setCellValueFactory(cellData -> cellData.getValue().name);
         storeTableBusyCol.setCellValueFactory(cellData -> cellData.getValue().busy);
         storeTableAddrCol.setCellValueFactory(cellData -> cellData.getValue().address);
+        storeTableQjCol.setCellValueFactory(cellData -> cellData.getValue().Qj);
         
         // init reserveTable
         reserveTableTimeCol.setCellValueFactory(cellData -> cellData.getValue().time);
@@ -176,7 +197,23 @@ public class UIController {
         reserveTableVkCol.setCellValueFactory(cellData -> cellData.getValue().Vk);
         reserveTableQjCol.setCellValueFactory(cellData -> cellData.getValue().Qj);
         reserveTableQkCol.setCellValueFactory(cellData -> cellData.getValue().Qk);
-
+        
+        // init memoryTable
+        memoryTableAddrCol.setCellValueFactory(cellData -> cellData.getValue().address);
+        memoryTableValueCol.setCellValueFactory(cellData -> cellData.getValue().value);
+        
+        // make memory Editable
+        memoryTableValueCol.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter()));
+        memoryTableValueCol.setOnEditCommit(
+                new EventHandler<CellEditEvent<MemoryTableItem, Number>>() {
+                    @Override
+                    public void handle(CellEditEvent<MemoryTableItem, Number> t) {
+                        ((MemoryTableItem) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                                ).updateFromUI(t.getNewValue());
+                    }
+                }
+            );
     }
     
     @FXML
@@ -203,6 +240,7 @@ public class UIController {
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Text Files", "*.txt")
             );
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         File file = fileChooser.showOpenDialog(mainApp.pStage);
         if (file != null) {
             BufferedReader reader = null;
@@ -344,5 +382,7 @@ public class UIController {
         reserveTable.setItems(mainApp.getReserveData());
         floatRegTable.setItems(mainApp.getFloatRegTableData());
         regTable.setItems(mainApp.getRegTableData());
+        memoryTable.setItems(mainApp.getMemoryData());
+        
     }
 }
