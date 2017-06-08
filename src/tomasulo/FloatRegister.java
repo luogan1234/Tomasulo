@@ -16,7 +16,6 @@ public class FloatRegister {
 			buffer=null;
 	}
 
-	//显示用函数
 	public String info()
 	{
 		if (buffer==null)
