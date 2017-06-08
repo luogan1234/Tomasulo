@@ -73,7 +73,6 @@ public class Instruction {
 		else return "";
 	}
 
-	//以下是显示用函数
 	public String typeName()
 	{
 		String name;
@@ -90,9 +89,6 @@ public class Instruction {
 			break;
 		case MULTD:
 			name="MULD";
-			break;
-		case NOP:
-			name="NOP";
 			break;
 		case ST:
 			name="ST";
@@ -129,7 +125,7 @@ public class Instruction {
 
 	public String Vj()
 	{
-		assert(type!=InstType.NOP&&type!=InstType.LD&&type!=InstType.ST);
+		assert(type!=InstType.LD&&type!=InstType.ST);
 		if (qj==null)
 			return String.valueOf(vj);
 		else
@@ -138,7 +134,7 @@ public class Instruction {
 
 	public String Vk()
 	{
-		assert(type!=InstType.NOP&&type!=InstType.LD&&type!=InstType.ST);
+		assert(type!=InstType.LD&&type!=InstType.ST);
 		if (qk==null)
 			return String.valueOf(vk);
 		else
@@ -147,7 +143,7 @@ public class Instruction {
 
 	public String Qj()
 	{
-		assert(type!=InstType.NOP&&type!=InstType.LD);
+		assert(type!=InstType.LD);
 		if (qj==null)
 			return "";
 		else
@@ -156,7 +152,7 @@ public class Instruction {
 
 	public String Qk()
 	{
-		assert(type!=InstType.NOP&&type!=InstType.LD&&type!=InstType.ST);
+		assert(type!=InstType.LD&&type!=InstType.ST);
 		if (qk==null)
 			return "";
 		else

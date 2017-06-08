@@ -133,7 +133,6 @@ public class Buffer {
 		timeLeft=-1;inst=null;
 	}
 
-	//以下是显示用函数
 	public String Time()
 	{
 		if (timeLeft>=0)
