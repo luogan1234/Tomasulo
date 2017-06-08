@@ -219,13 +219,13 @@ public class UIController {
     @FXML
     public void inputInst() {
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("输入指令");
-        dialog.setHeaderText("请输入单条指令：");
+        dialog.setTitle("Enter inst");
+        dialog.setHeaderText("Enter single inst：");
 
         dialog.showAndWait().ifPresent(response -> {
             System.out.println(response);
             if (mainApp.analyzer.addInst(response) == false) {
-                Alert alert = new Alert(AlertType.ERROR, "指令格式不正确！");
+                Alert alert = new Alert(AlertType.ERROR, "Error inst format!");
                 alert.showAndWait();
                 return;
             }
@@ -252,11 +252,12 @@ public class UIController {
                     // 
                     System.out.println(tempString);
                     if (mainApp.analyzer.addInst(tempString) == false) {
-                        Alert alert = new Alert(AlertType.ERROR, "指令格式不正确！");
+                        Alert alert = new Alert(AlertType.ERROR, "Error inst format!");
                         alert.showAndWait();
                         break;
                     }
                     addInstData();
+                    updateAll();
                 }
                 reader.close();
             } catch (IOException e) {
@@ -284,14 +285,14 @@ public class UIController {
     @FXML
     public void setN() {
         TextInputDialog dialog = new TextInputDialog(String.valueOf(step));
-        dialog.setTitle("设置多步执行步数");
-        dialog.setHeaderText("多步时，每次执行次数：");
+        dialog.setTitle("Set N");
+        dialog.setHeaderText("Set N of stepN：");
 
         dialog.showAndWait().ifPresent(response -> {
             System.out.println(response);
             Integer i = Integer.valueOf(response);
             if (i.intValue() < 2) {
-                Alert alert = new Alert(AlertType.ERROR, "步数格式不正确！");
+                Alert alert = new Alert(AlertType.ERROR, "Error N format!");
                 alert.showAndWait();
                 return;
             }
