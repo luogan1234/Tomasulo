@@ -1,10 +1,27 @@
 # Tomasulo 调度算法报告 #
 罗干 2014011342
+王笑晗 2013011327
 
 ## 项目构成 ##
 整个文件夹即Tomasulo算法的Java工程：在src目录下，包含界面文件TomasuloUI.fxml，和程序代码文件夹tomasulo，其中包含输入解析、tomasulo算法、界面控制相关的一系列java代码；example目录下包含3个测试用例，在运行程序后可以直接导入；img目录下包含界面上的一些图标图片。
 
 ## 输入解析 ##
+
+主要实现在./src/Analyzer.java下，对TomasuloCore类进行了进一步封装，实现了对字符串输入的指令的解析。能够解析ADDD/SUBD/MULD/DIVD/LD/ST/SET指令，并对操作数的格式进行一定的判断。（在要求的指令集上加入了SET指令，主要便于从文件中导入数据）
+
+指令格式规定如下：
+
+指令 | 说明
+---- | ----
+ADDD Fa Fb Fc | a,b,c为[0,10]的数字
+SUBD Fa Fb Fc | 同上
+MULD Fa Fb Fc | 同上
+DIVD Fa Fb Fc | 同上
+LD Fa b Rc | ADDR=R[c]+b，a,c为[0,10]的数字
+ST Fa b Rc | 同上
+SET F a b | F[a]=b，a为[0,10]的数字
+SET M a b | M[a]=b，a为[0,4096]的数字
+SET R a b | R[a]=b，a为[0,10]的数字
 
 ## 算法实现 ##
 
