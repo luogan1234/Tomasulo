@@ -35,10 +35,10 @@ public class Analyzer {
 			break;
 		case "SET":
 			type = InstType.SET;
+			break;
 		default:
 			return false;
 		}
-		
 		if (type == InstType.ADDD || type == InstType.SUBD || type == InstType.MULTD || type == InstType.DIVD) {
 			if (!(insts[1].matches("F[0-9]+") && insts[2].matches("F[0-9]+") && insts[3].matches("F[0-9]+"))) return false;
 			int op1 = getOp(insts[1]);
