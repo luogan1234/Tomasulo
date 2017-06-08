@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tomasulo.UIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tomasulo.UIController">
    <children>
       <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -88,7 +88,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <HBox spacing="10.0">
+            <HBox minHeight="260.0" spacing="10.0">
                <children>
                   <VBox alignment="CENTER">
                      <children>
@@ -115,12 +115,13 @@
                         </TableView>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" layoutX="230.0" layoutY="15.0" prefHeight="186.0" prefWidth="186.0" spacing="1.0">
+                  <VBox alignment="CENTER" layoutX="230.0" layoutY="15.0" prefHeight="245.0" prefWidth="241.0" spacing="1.0">
                      <children>
                         <Label text="Load Queue" textAlignment="CENTER" />
                         <TableView fx:id="loadTable" prefWidth="126.0">
                            <columns>
-                              <TableColumn fx:id="loadTableNameCol" prefWidth="48.682586669921875" text="Name" />
+                              <TableColumn fx:id="loadTableTimeCol" prefWidth="42.48809814453125" text="Time" />
+                              <TableColumn fx:id="loadTableNameCol" prefWidth="55.51190185546875" text="Name" />
                               <TableColumn fx:id="loadTableBusyCol" prefWidth="40.68255615234375" text="Busy" />
                               <TableColumn fx:id="loadTableAddrCol" prefWidth="62.511932373046875" text="Address" />
                            </columns>
@@ -128,10 +129,11 @@
                         <Label layoutX="47.0" layoutY="10.0" text="Store Queue" textAlignment="CENTER" />
                         <TableView fx:id="storeTable" layoutX="10.0" layoutY="27.0" prefWidth="126.0">
                            <columns>
-                              <TableColumn fx:id="storeTableNameCol" prefWidth="49.767913818359375" text="Name" />
+                              <TableColumn fx:id="storeTableTimeCol" prefWidth="42.40277099609375" text="Time" />
+                              <TableColumn fx:id="storeTableNameCol" prefWidth="57.59722900390625" text="Name" />
                               <TableColumn fx:id="storeTableBusyCol" prefWidth="49.450469970703125" text="Busy" />
                               <TableColumn fx:id="storeTableAddrCol" prefWidth="57.511962890625" text="Address" />
-                              <TableColumn prefWidth="27.00006103515625" text="Qi" />
+                              <TableColumn fx:id="storeTableQjCol" prefWidth="27.00006103515625" text="Qj" />
                            </columns>
                         </TableView>
                      </children>
@@ -166,10 +168,10 @@
                   <VBox alignment="CENTER">
                      <children>
                         <Label text="内存" textAlignment="CENTER" />
-                        <TableView prefWidth="135.0">
+                        <TableView fx:id="memoryTable" editable="true" prefWidth="135.0">
                            <columns>
-                              <TableColumn prefWidth="45.0" text="Addr" />
-                              <TableColumn prefWidth="58.450523376464844" text="Value" />
+                              <TableColumn fx:id="memoryTableAddrCol" editable="false" prefWidth="45.0" text="Addr" />
+                              <TableColumn fx:id="memoryTableValueCol" prefWidth="58.450523376464844" text="Value" />
                            </columns>
                         </TableView>
                      </children>
