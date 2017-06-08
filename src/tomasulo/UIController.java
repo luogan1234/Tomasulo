@@ -253,9 +253,8 @@ public class UIController {
             try {
                 reader = new BufferedReader(new FileReader(file));
                 String tempString = null;
-                // 涓�娆¤鍏ヤ竴琛岋紝鐩村埌璇诲叆null涓烘枃浠剁粨鏉�
+
                 while ((tempString = reader.readLine()) != null) {
-                    // 
                     System.out.println(tempString);
                     if (mainApp.analyzer.addInst(tempString) == false) {
                         Alert alert = new Alert(AlertType.ERROR, "Error inst format!");
