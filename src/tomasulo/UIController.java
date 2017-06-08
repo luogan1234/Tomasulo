@@ -226,7 +226,7 @@ public class UIController {
     public void inputInst() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Enter inst");
-        dialog.setHeaderText("Enter single inst：");
+        dialog.setHeaderText("Enter single inst:");
 
         dialog.showAndWait().ifPresent(response -> {
             System.out.println(response);
@@ -253,9 +253,8 @@ public class UIController {
             try {
                 reader = new BufferedReader(new FileReader(file));
                 String tempString = null;
-                // 一次读入一行，直到读入null为文件结束
+
                 while ((tempString = reader.readLine()) != null) {
-                    // 
                     System.out.println(tempString);
                     if (mainApp.analyzer.addInst(tempString) == false) {
                         Alert alert = new Alert(AlertType.ERROR, "Error inst format!");
@@ -292,7 +291,7 @@ public class UIController {
     public void setN() {
         TextInputDialog dialog = new TextInputDialog(String.valueOf(step));
         dialog.setTitle("Set N");
-        dialog.setHeaderText("Set N of stepN：");
+        dialog.setHeaderText("Set N of stepN:");
 
         dialog.showAndWait().ifPresent(response -> {
             System.out.println(response);
